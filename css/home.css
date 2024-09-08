@@ -1,0 +1,339 @@
+/* Fondo y estilos generales de la página */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(150deg, #1370ac, #44a7f9);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+h2{
+    font-size: 80px;
+    color: white;
+}
+
+/* Estilo para el header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding: 0 20px;
+    background-color: #1370ac;
+}
+
+/* Estilo para el logo */
+.logo {
+    width: 50px;
+    height: auto;
+}
+
+/* Estilo para la barra de navegación */
+.navbar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    background-color: #1370ac;
+}
+
+/* Barra de búsqueda centrada */
+.search-container {
+    flex: 1;
+    text-align: center;
+}
+
+.search-bar {
+    width: 50%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    outline: none;
+}
+
+.search-bar::placeholder {
+    color: #888;
+}
+
+/* Menú desplegable lateral para categorías */
+.dropdown-categories {
+    position: relative;
+    display: inline-block;
+}
+
+.categories-btn {
+    background-color: white;
+    color: #1370ac;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.categories-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    width: 200px;
+}
+
+.categories-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.categories-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown-categories:hover .categories-content {
+    display: block;
+}
+
+/* Opciones de usuario */
+.user-options {
+    display: flex;
+    align-items: center;
+}
+
+.user-btn {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    margin-right: 20px;
+}
+
+#loginBtn {
+    background-color: #fff;
+    color: #1370ac;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#loginBtn:hover {
+    background-color: #1370ac;
+    color: #fff;
+}
+
+.upload-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 20px;
+}
+
+.upload-btn:hover {
+    background-color: #218838;
+}
+
+/* Estilo para el formulario de agregar producto */
+#upload-section {
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#upload-section h3 {
+    text-align: center;
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    color: #1370ac;
+}
+
+#uploadProductForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#uploadProductForm .form-group {
+    margin-bottom: 15px;
+}
+
+#uploadProductForm label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+#uploadProductForm input[type="text"],
+#uploadProductForm input[type="number"],
+#uploadProductForm input[type="file"],
+#uploadProductForm textarea,
+#uploadProductForm select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #adadad;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#uploadProductForm textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+#uploadProductForm select {
+    background-color: #fff;
+}
+
+#uploadProductForm button[type="submit"] {
+    background-color: #1370ac;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#uploadProductForm button[type="submit"]:hover {
+    background-color: #105a85;
+}
+
+/* Estilo para el botón "Mostrar todos los productos" */
+.show-all-btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.show-all-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Asegúrate de que los botones estén alineados horizontalmente */
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-categories,
+.show-all-btn {
+    margin: 0 10px;
+}
+
+/* Estilos para el carrusel de productos */
+.carousel-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px; /* Espacio entre el carrusel y la información del producto */
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+    height: 100%;
+}
+
+.carousel img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover; /* Asegura que las imágenes cubran el área sin deformarse */
+}
+
+.carousel-prev, .carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 18px;
+    z-index: 10;
+}
+
+.carousel-prev {
+    left: 10px;
+}
+
+.carousel-next {
+    right: 10px;
+}
+
+/* Estilo para los elementos del producto */
+.product-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px; /* Espacio entre productos */
+}
+
+.product-item h4 {
+    font-size: 18px;
+    margin: 10px 0 5px;
+}
+
+.product-item p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Estilo para el botón "Borrar todos los productos" */
+.delete-all-btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    background-color: #dc3545; /* Rojo para indicar peligro o advertencia */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.delete-all-btn:hover {
+    background-color: #c82333; /* Rojo más oscuro al pasar el cursor */
+    transform: scale(1.05); /* Efecto de aumento al pasar el cursor */
+}
+
+.delete-all-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.5); /* Resalta el botón cuando está en foco */
+}

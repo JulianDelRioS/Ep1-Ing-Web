@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Registro - MarketLink</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>MarketLink</h1>
+        <img src="https://cdn-icons-png.flaticon.com/512/281/281397.png" alt="Icono de MarketLink" class="icono">
+    </header>
+
+    <div class="formulario registro">
+        <h2>Registro de Usuario</h2>
+
+        <form id="registerForm" method="post">
+            <div class="username">
+                <input type="text" name="username" placeholder="Nombre de usuario" required>
+            </div>
+            <div class = "Rut">
+                <input type = "text" name = "Rut" placeholder="Rut (12345678-9)" required>
+            </div>
+            <div class="email">
+                <input type="email" name="email" placeholder="Correo electrónico" required>
+            </div>
+            <div class="password">
+                <input type="password" name="password" placeholder="Contraseña" required>
+            </div>
+            <div class="confirm-password">
+                <input type="password" name="confirm_password" placeholder="Confirmar contraseña" required>
+            </div>
+            <div class="birthdate">
+                <select id="day" name="day" required>
+                    <option value="" disabled selected>Día</option>
+                    <!-- Opciones para el día del mes -->
+                </select>
+
+                <select id="month" name="month" required>
+                    <option value="" disabled selected>Mes</option>
+                    <!-- Opciones para el mes -->
+                </select>
+
+                <select id="year" name="year" required>
+                    <option value="" disabled selected>Año</option>
+                    <!-- Opciones para el año -->
+                </select>
+            </div>
+            <div class="ubicacion">
+                <div class="vivienda">
+                    <select id="region" name="region" required>
+                        <option value="" disabled selected>Región</option>
+                        <!-- Regiones del país -->
+                    </select>
+                </div>
+                <div class="comuna">
+                    <select id="comuna" name="comuna" required>
+                        <option value="" disabled selected>Comuna</option>
+                        <!-- Comunas del país según la región seleccionada -->
+                    </select>
+                </div>
+            </div>
+
+            <button class="registerButton" type="submit">Registrarse</button>
+
+            <div class="separador">
+                <div class="linea"></div>
+            </div>
+
+            <div class="loginRedirect">
+                <a href="login.html">Ya tengo una cuenta. Iniciar sesión</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Enlaza el archivo JavaScript al final del body -->
+    
+    <script src="js/register.js" defer></script>
+</body>
+</html>
