@@ -296,13 +296,26 @@ header {
     right: 10px;
 }
 
-/* Estilo para los elementos del producto */
-.product-item {
+/* Contenedor de productos */
+.product-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px; /* Espacio desde los bordes */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
+}
+
+/* Estilos para cada producto */
+.product-item {
+    width: 200px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
     text-align: center;
-    margin-bottom: 20px; /* Espacio entre productos */
+    padding: 10px;
 }
 
 .product-item h4 {
@@ -315,25 +328,47 @@ header {
     margin: 5px 0;
 }
 
-/* Estilo para el botón "Borrar todos los productos" */
-.delete-all-btn {
-    padding: 10px 20px;
-    margin: 0 10px;
-    border: none;
-    background-color: #dc3545; /* Rojo para indicar peligro o advertencia */
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.3s;
+/* Estilos para las opciones de usuario */
+.user-options {
+    display: flex;
+    align-items: center;
 }
 
-.delete-all-btn:hover {
+.logout-btn {
+    background-color: #dc3545; /* Rojo para indicar peligro o advertencia */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    transition: background-color 0.3s, transform 0.3s; /* Transiciones suaves */
+    margin-right: 10px; /* Espacio entre el botón y el nombre de usuario */
+}
+
+.logout-btn:hover {
     background-color: #c82333; /* Rojo más oscuro al pasar el cursor */
     transform: scale(1.05); /* Efecto de aumento al pasar el cursor */
 }
 
-.delete-all-btn:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.5); /* Resalta el botón cuando está en foco */
+.user-btn {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    margin-right: 20px; /* Espacio a la derecha del nombre del usuario */
+}
+
+#loginBtn {
+    background-color: #fff;
+    color: #1370ac;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#loginBtn:hover {
+    background-color: #1370ac;
+    color: #fff;
 }

@@ -5,7 +5,6 @@
     <title>Inicio - MarketLink</title>
     <link rel="stylesheet" href="css/home.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    
 </head>
 <body>
     <header>
@@ -25,13 +24,11 @@
                     <a href="#" data-category="electronica">Electrónica</a>
                     <a href="#" data-category="ropa">Ropa</a>
                     <a href="#" data-category="hogar">Hogar</a>
-                    <!-- Otras categorías -->
                 </div>
             </div>
 
             <!-- Botón para mostrar todos los productos -->
             <button id="showAllProductsBtn" class="show-all-btn">Mostrar todos los productos</button>
-            <button id="deleteAllProductsBtn" class="delete-all-btn">Borrar todos los productos(clave = 1234)</button>
 
             <!-- Barra de búsqueda -->
             <div class="search-container">
@@ -40,8 +37,9 @@
 
             <!-- Datos del usuario o botón de inicio de sesión -->
             <div class="user-options">
-                <a href="#" class="user-btn">Mi cuenta</a>
+                <a href="#" class="user-btn" style="display:none;">Mi cuenta</a>
                 <button id="loginBtn" style="display:none;">Iniciar sesión</button>
+                <button id="logoutBtn" class="logout-btn" style="display:none;">Cerrar Sesión</button>
             </div>
         </nav>
     </header>
@@ -52,17 +50,14 @@
             <h2>Bienvenido a MarketLink</h2>
         </section>
 
-            <!-- Contenedor de productos subidos -->
-            <div class="products-content" id="products-section">
-                <div id="productsList"></div>
-            </div>
-        </section>
+        <!-- Contenedor de productos subidos -->
+        <div class="products-content" id="products-section">
+            <div id="productsList"></div>
+        </div>
 
-
-
-        <!-- Formulario para subir un producto (oculto por defecto) -->
+        <!-- Formulario para solicitar la publicación de un producto (oculto por defecto) -->
         <section id="upload-section" style="display:none;">
-            <h3>Subir nuevo producto</h3>
+            <h3>Solicitar publicación de nuevo producto</h3>
             <form id="uploadProductForm">
                 <label for="productName">Nombre del producto:</label>
                 <input type="text" id="productName" required>
@@ -76,16 +71,15 @@
                     <option value="electronica">Electrónica</option>
                     <option value="ropa">Ropa</option>
                     <option value="hogar">Hogar</option>
-                    <!-- Añade más opciones según las categorías disponibles -->
                 </select>
                 
                 <label for="productDescription">Descripción:</label>
                 <textarea id="productDescription" required></textarea>
                 
-                <label for="productImages">Subir imágenes (hasta 3):</label>
+                <label for="productImages">Subir imágenes (Deben ser 3):</label>
                 <input type="file" id="productImages" accept="image/*" multiple required>
 
-                <button type="submit">Subir producto</button>
+                <button type="submit">Enviar Solicitud</button>
             </form>
         </section>
     </main>

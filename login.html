@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <title>MarketLink</title>
+    <title>MarketLink - Iniciar Sesión</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -14,7 +14,7 @@
     <div class="formulario login">
         <h2>Inicio de Sesión</h2>
 
-        <form method="post">
+        <form id="loginForm"> <!-- Se añade un ID para capturar el evento en el script -->
             <div class="username">
                 <input type="text" name="username" placeholder="Usuario o correo electrónico" required>
             </div>
@@ -22,8 +22,7 @@
                 <input type="password" name="password" placeholder="Contraseña" required>
             </div>
 
-            <button class="loginButton" type="submit">Iniciar sesión
-            </button>
+            <button class="loginButton" type="submit">Iniciar sesión</button>
 
             <div class="olvido">
                 ¿Olvidaste tu contraseña?
@@ -38,8 +37,7 @@
             </div>
         </form>
     </div>
-    <script src="js/login.js" defer></script>
-
-
+    
+    <script src="js/login.js" defer></script> <!-- Asegúrate de que el script esté cargado -->
 </body>
 </html>
