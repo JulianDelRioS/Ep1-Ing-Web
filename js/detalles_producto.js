@@ -28,6 +28,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p><strong>Usuario Vendedor:</strong> ${selectedProduct.userId}</p>
             </div>
         `;
+
+        // Inicializar el carrusel
+        let currentIndex = 0;
+        const images = productDetailsDiv.querySelectorAll('.product-image');
+        const totalImages = images.length;
+
+        // Función para mostrar la imagen actual
+        function updateCarousel() {
+            images.forEach((img, index) => {
+                img.style.display = (index === currentIndex) ? 'block' : 'none';
+            });
+        }
+
+        // Mover el carrusel
+        window.moveCarousel = function(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) {
+                currentIndex = totalImages - 1; // Volver al último si está en el primero
+            } else if (currentIndex >= totalImages) {
+                currentIndex = 0; // Volver al primero si está en el último
+            }
+            updateCarousel();
+        };
+
+        // Inicializar el carrusel mostrando solo la primera imagen
+        updateCarousel();
     } else {
         document.getElementById('productDetails').innerHTML = '<p>No se encontró información del producto.</p>';
     }
