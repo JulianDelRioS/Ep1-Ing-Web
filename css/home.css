@@ -253,13 +253,16 @@ header {
 /* Estilos mejorados para el carrusel de productos */
 .carousel-container {
     position: relative;
-    width: 220px; /* Aumenté el ancho para dar más espacio */
+    width: 220px;
     height: 220px;
     overflow: hidden;
-    background-color: #f7f7f7; /* Color de fondo más suave */
-    border-radius: 12px; /* Bordes más suaves */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
-    margin-bottom: 15px; /* Más espacio entre el carrusel y la información del producto */
+    background-color: #f7f7f7;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 15px;
+    display: flex; /* Usamos Flexbox para centrar el contenido */
+    justify-content: center; /* Centra la imagen horizontalmente */
+    align-items: center; /* Centra la imagen verticalmente */
 }
 
 .carousel {
@@ -269,11 +272,12 @@ header {
 }
 
 .carousel img {
-    width: 220px;
-    height: 220px;
+    width: 100%;
+    height: auto; /* Mantenemos la proporción de la imagen */
     object-fit: cover;
-    border-radius: 10px; /* Bordes suaves para las imágenes */
+    border-radius: 10px;
 }
+
 
 /* Botones de navegación del carrusel */
 .carousel-prev, .carousel-next {
@@ -303,27 +307,22 @@ header {
     right: 12px;
 }
 
-/* Contenedor de productos mejorado */
-.product-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 25px; /* Más espacio desde los bordes */
+/* Contenedor de productos */
+#productsList {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    flex-wrap: wrap; /* Permite que los productos se ajusten en filas múltiples */
+    justify-content: flex-start; /* Alinea los productos desde la izquierda */
+    gap: 20px; /* Espacio entre los productos */
 }
 
-/* Estilos mejorados para cada producto */
+/* Estilos para cada producto */
 .product-item {
-    width: 220px; /* Ancho consistente con el carrusel */
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
-    margin-bottom: 25px; /* Más espacio entre los productos */
+    width: calc(25% - 20px); /* Cada producto ocupa el 25% del ancho del contenedor, máximo 4 por fila */
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 10px;
     text-align: center;
-    padding: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efecto de hover */
 }
 
 .product-item:hover {
