@@ -7,7 +7,9 @@ if (!adminExists) {
         username: 'admin',
         email: 'admin@marketlink.com',
         password: 'admin123', // Puedes cambiar esta contraseña
-        role: 'admin'
+        role: 'admin',
+        region: 'Región Metropolitana', // Agregar región
+        commune: 'Santiago' // Agregar comuna
     });
     localStorage.setItem('users', JSON.stringify(users));
     console.log('Usuario administrador creado');
@@ -28,7 +30,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
 
     // Verificar si el usuario existe y si la contraseña coincide
     if (user) {
-        // Guardar el usuario logueado en localStorage
+        // Guardar el usuario logueado en localStorage, incluyendo región y comuna
         localStorage.setItem('loggedInUser', JSON.stringify(user));
 
         // Verificar el rol del usuario

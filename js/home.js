@@ -39,27 +39,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const showUploadFormBtn = document.getElementById('showUploadFormBtn');
     const showAllProductsBtn = document.getElementById('showAllProductsBtn');
 
-    // Función para renderizar productos
     function renderProducts(filteredProducts) {
         productsList.innerHTML = '';
         filteredProducts.forEach(product => {
             const productDiv = document.createElement('div');
             productDiv.classList.add('product-item');
-
-            let imagesHTML = '<div class="carousel-container"><div class="carousel">';
-            product.images.forEach(image => {
-                imagesHTML += `<img src="${image}" class="product-image" alt="Imagen del producto">`;
-            });
-            imagesHTML += '</div><button class="carousel-prev">&lt;</button><button class="carousel-next">&gt;</button></div>';
-
+    
+            // Mostrar solo la primera imagen
+            let imagesHTML = '';
+            if (product.images.length > 0) {
+                imagesHTML = `<img src="${product.images[0]}" class="product-image" alt="Imagen del producto">`;
+            }
+    
+            // Solo mostrar el nombre y el precio del producto
             productDiv.innerHTML = `
                 ${imagesHTML}
                 <h4>${product.name}</h4>
                 <p>Precio: $${product.price}</p>
-                <p>${product.description}</p>
-                <p>Usuario vendedor: ${product.userId}</p> <!-- Mostrar el usuario vendedor -->
             `;
-
+    
+    // Añadir botón "Ver detalles"
+    const viewDetailsButton = document.createElement('button');
+    viewDetailsButton.textContent = 'Ver detalles';
+    viewDetailsButton.classList.add('view-details-btn');
+    viewDetailsButton.addEventListener('click', () => {
+        // Almacenar el producto seleccionado en localStorage
+        localStorage.setItem('selectedProduct', JSON.stringify(product));
+        // Redirigir a detalles_productos.html
+        window.location.href = 'detalles_producto.html';
+    });
+    productDiv.appendChild(viewDetailsButton);
+    
             // Mostrar el botón de eliminar si el usuario es el propietario
             if (product.userId === loggedInUser.username) {
                 const deleteButton = document.createElement('button');
@@ -70,38 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 deleteButton.addEventListener('click', deleteProduct);
                 productDiv.appendChild(deleteButton);
             }
-
+    
             productsList.appendChild(productDiv);
         });
-
-        // Inicializar carruseles
-        document.querySelectorAll('.carousel-container').forEach(initCarousel);
     }
-
-    // Función para inicializar los carruseles
-    function initCarousel(carouselContainer) {
-        const carousel = carouselContainer.querySelector('.carousel');
-        const carouselImages = carousel.querySelectorAll('img');
-        let currentIndex = 0;
-
-        function showImage(index) {
-            const offset = -index * 100;
-            carousel.style.transform = `translateX(${offset}%)`;
-        }
-
-        carouselContainer.querySelector('.carousel-prev').addEventListener('click', function() {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : carouselImages.length - 1;
-            showImage(currentIndex);
-        });
-
-        carouselContainer.querySelector('.carousel-next').addEventListener('click', function() {
-            currentIndex = (currentIndex < carouselImages.length - 1) ? currentIndex + 1 : 0;
-            showImage(currentIndex);
-        });
-
-        // Mostrar la primera imagen al iniciar
-        showImage(currentIndex);
-    }
+    
 
     // Mostrar el formulario de subida de productos
     showUploadFormBtn.addEventListener('click', function() {
@@ -146,22 +129,30 @@ document.addEventListener('DOMContentLoaded', function() {
         uploadSection.style.display = 'none';
     });
 
-    // Función para guardar la solicitud de publicación de un producto
     function saveRequest(name, price, category, description, images) {
+        console.log('loggedInUser:', loggedInUser); // Esto mostrará el objeto loggedInUser en la consola
+        
         const newRequest = {
             name: name,
             price: price,
             category: category,
             description: description,
             images: images,
-            userId: loggedInUser.username, // Almacenar el username del usuario que solicita la publicación
-            status: 'pending'
+            userId: loggedInUser.username,
+            status: 'pending',
+            seller: loggedInUser.username,
+            region: loggedInUser.region || document.getElementById('region').value, // Obtener la región del formulario si está vacío
+            commune: loggedInUser.commune || document.getElementById('comuna').value // Obtener la comuna del formulario si está vacío
         };
-
+    
         requests.push(newRequest);
         localStorage.setItem('requests', JSON.stringify(requests));
+        localStorage.setItem('selectedProduct', JSON.stringify(newRequest)); // Guardar el producto para mostrarlo
         alert('Solicitud de publicación enviada exitosamente.');
     }
+    
+    
+    
 
     // Función para eliminar productos
     function deleteProduct(event) {

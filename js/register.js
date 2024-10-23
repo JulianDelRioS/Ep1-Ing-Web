@@ -1,13 +1,20 @@
-// Función de registro de usuario
 document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Evita el envío tradicional del formulario
-    
+
+    // Captura los valores del formulario
     const username = document.querySelector('input[name="username"]').value;
     const Rut = document.querySelector('input[name="Rut"]').value;
     const email = document.querySelector('input[name="email"]').value;
     const password = document.querySelector('input[name="password"]').value;
     const confirmPassword = document.querySelector('input[name="confirm_password"]').value;
+
+    // Captura los valores de región y comuna
+    const region = document.getElementById('region').value; 
+    const commune = document.getElementById('comuna').value; 
+    console.log('Región:', region);
+    console.log('Comuna:', commune);
     
+
     // Validación del formato del RUT
     const rutRegex = /^[0-9]{7,8}-[0-9Kk]$/;
     if (!rutRegex.test(Rut)) {
@@ -34,7 +41,9 @@ document.getElementById('registerForm').addEventListener('submit', function(even
         username: username,
         Rut: Rut,
         email: email,
-        password: password
+        password: password,
+        region: region, // Guardando el valor de la región seleccionada
+        commune: commune // Guardando el valor de la comuna seleccionada
     };
 
     // Agregar el nuevo usuario

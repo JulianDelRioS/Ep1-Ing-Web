@@ -10,10 +10,12 @@ body {
     justify-content: center;
     align-items: center;
 }
-h2{
+h2 {
     font-size: 80px;
     color: white;
+    margin-top: -20px; /* Ajusta este valor según sea necesario */
 }
+
 
 /* Estilo para el header */
 header {
@@ -250,63 +252,6 @@ header {
     margin: 0 10px;
 }
 
-/* Estilos mejorados para el carrusel de productos */
-.carousel-container {
-    position: relative;
-    width: 220px;
-    height: 220px;
-    overflow: hidden;
-    background-color: #f7f7f7;
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    margin-bottom: 15px;
-    display: flex; /* Usamos Flexbox para centrar el contenido */
-    justify-content: center; /* Centra la imagen horizontalmente */
-    align-items: center; /* Centra la imagen verticalmente */
-}
-
-.carousel {
-    display: flex;
-    transition: transform 0.5s ease;
-    height: 100%;
-}
-
-.carousel img {
-    width: 100%;
-    height: auto; /* Mantenemos la proporción de la imagen */
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-
-/* Botones de navegación del carrusel */
-.carousel-prev, .carousel-next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.7); /* Botones más oscuros y opacos */
-    color: white;
-    border: none;
-    padding: 12px;
-    cursor: pointer;
-    border-radius: 50%;
-    font-size: 20px;
-    z-index: 10;
-    transition: background-color 0.3s ease; /* Animación suave al pasar el cursor */
-}
-
-.carousel-prev:hover, .carousel-next:hover {
-    background-color: rgba(0, 0, 0, 0.9); /* Efecto hover más visible */
-}
-
-.carousel-prev {
-    left: 12px;
-}
-
-.carousel-next {
-    right: 12px;
-}
-
 /* Contenedor de productos */
 #productsList {
     display: flex;
@@ -323,6 +268,40 @@ header {
     padding: 10px;
     border-radius: 10px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espacio entre los elementos */
+    height: 300px; /* Altura fija para evitar que se encoja */
+}
+.product-item button {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los productos se ajusten en filas múltiples */
+    justify-content: flex-start; /* Alinea los productos desde la izquierda */
+    margin-right: 10px; /* Espacio entre los botones */
+    background-color: #007bff; /* Color de fondo para el botón "Ver" */
+    color: white; /* Color de texto */
+    padding: 10px 15px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    transition: background-color 0.3s; /* Transición suave */
+}
+
+.product-item button:last-child {
+    margin-right: 0; /* Elimina el margen derecho del último botón */
+}
+
+.product-item button:hover {
+    opacity: 0.9; /* Efecto hover para ambos botones */
+}
+
+/* Ajustar la imagen del producto al contenedor */
+.product-item img {
+    width: 100%; /* La imagen ocupará el 100% del ancho del contenedor */
+    height: auto; /* Mantendrá la proporción original de la imagen */
+    max-height: 200px; /* Limitar la altura máxima de la imagen para evitar que sea demasiado grande */
+    object-fit: cover; /* Asegura que la imagen se recorte para ajustarse al espacio sin distorsión */
+    border-radius: 5px; /* Bordes redondeados para la imagen */
 }
 
 .product-item:hover {
@@ -343,7 +322,6 @@ header {
     color: #666; /* Color de texto más suave */
 }
 
-
 /* Estilos para las opciones de usuario */
 .user-options {
     display: flex;
@@ -362,29 +340,39 @@ header {
 }
 
 .logout-btn:hover {
-    background-color: #c82333; /* Rojo más oscuro al pasar el cursor */
+    background-color: #c82333; /* Color más oscuro al pasar el cursor */
     transform: scale(1.05); /* Efecto de aumento al pasar el cursor */
 }
 
-.user-btn {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    margin-right: 20px; /* Espacio a la derecha del nombre del usuario */
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+    h2 {
+        font-size: 60px; /* Tamaño de fuente más pequeño en pantallas más pequeñas */
+    }
+
+    .search-bar {
+        width: 80%; /* Barra de búsqueda más ancha en móviles */
+    }
+
+    .product-item {
+        width: calc(50% - 20px); /* 2 productos por fila en pantallas pequeñas */
+    }
+
+    #upload-section {
+        width: 90%; /* Ancho del formulario en pantallas pequeñas */
+    }
 }
 
-#loginBtn {
-    background-color: #fff;
-    color: #1370ac;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+@media (max-width: 480px) {
+    h2 {
+        font-size: 40px; /* Tamaño de fuente más pequeño en pantallas aún más pequeñas */
+    }
 
-#loginBtn:hover {
-    background-color: #1370ac;
-    color: #fff;
+    .search-bar {
+        width: 95%; /* Barra de búsqueda ocupando casi todo el ancho en móviles */
+    }
+
+    .product-item {
+        width: 100%; /* 1 producto por fila en móviles */
+    }
 }
