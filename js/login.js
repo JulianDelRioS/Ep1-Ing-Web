@@ -15,18 +15,29 @@ if (!adminExists) {
     console.log('Usuario administrador creado');
 }
 
+// Función para cargar usuarios desde usuarios.json
+async function loadUsers() {
+    const response = await fetch('usuarios.json');
+    const usersFromJson = await response.json();
+    return usersFromJson;
+}
+
 // Manejar la validación de inicio de sesión
-document.querySelector('form').addEventListener('submit', function(event) {
+document.querySelector('form').addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const username = document.querySelector('input[name="username"]').value.trim();
     const password = document.querySelector('input[name="password"]').value.trim();
 
-    // Obtener la lista de usuarios desde localStorage
-    let users = JSON.parse(localStorage.getItem('users')) || [];
+    // Obtener usuarios de localStorage y desde el archivo JSON
+    const usersFromLocalStorage = JSON.parse(localStorage.getItem('users')) || [];
+    const usersFromJson = await loadUsers();
 
-    // Buscar el usuario en la lista
-    const user = users.find(user => (user.username === username || user.email === username) && user.password === password);
+    // Combinar los usuarios de ambos orígenes
+    const allUsers = [...usersFromLocalStorage, ...usersFromJson];
+
+    // Buscar el usuario en la lista combinada
+    const user = allUsers.find(user => (user.username === username || user.email === username) && user.password === password);
 
     // Verificar si el usuario existe y si la contraseña coincide
     if (user) {
