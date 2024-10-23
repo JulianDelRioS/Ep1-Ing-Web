@@ -250,16 +250,16 @@ header {
     margin: 0 10px;
 }
 
-/* Estilos para el carrusel de productos */
+/* Estilos mejorados para el carrusel de productos */
 .carousel-container {
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 220px; /* Aumenté el ancho para dar más espacio */
+    height: 220px;
     overflow: hidden;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px; /* Espacio entre el carrusel y la información del producto */
+    background-color: #f7f7f7; /* Color de fondo más suave */
+    border-radius: 12px; /* Bordes más suaves */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+    margin-bottom: 15px; /* Más espacio entre el carrusel y la información del producto */
 }
 
 .carousel {
@@ -269,64 +269,81 @@ header {
 }
 
 .carousel img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover; /* Asegura que las imágenes cubran el área sin deformarse */
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px; /* Bordes suaves para las imágenes */
 }
 
+/* Botones de navegación del carrusel */
 .carousel-prev, .carousel-next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7); /* Botones más oscuros y opacos */
     color: white;
     border: none;
-    padding: 10px;
+    padding: 12px;
     cursor: pointer;
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 20px;
     z-index: 10;
+    transition: background-color 0.3s ease; /* Animación suave al pasar el cursor */
+}
+
+.carousel-prev:hover, .carousel-next:hover {
+    background-color: rgba(0, 0, 0, 0.9); /* Efecto hover más visible */
 }
 
 .carousel-prev {
-    left: 10px;
+    left: 12px;
 }
 
 .carousel-next {
-    right: 10px;
+    right: 12px;
 }
 
-/* Contenedor de productos */
+/* Contenedor de productos mejorado */
 .product-container {
     position: absolute;
     top: 0;
     right: 0;
-    margin: 20px; /* Espacio desde los bordes */
+    margin: 25px; /* Más espacio desde los bordes */
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 }
 
-/* Estilos para cada producto */
+/* Estilos mejorados para cada producto */
 .product-item {
-    width: 200px;
+    width: 220px; /* Ancho consistente con el carrusel */
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+    margin-bottom: 25px; /* Más espacio entre los productos */
     text-align: center;
-    padding: 10px;
+    padding: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efecto de hover */
+}
+
+.product-item:hover {
+    transform: translateY(-5px); /* Levanta el producto al pasar el cursor */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más profunda en hover */
 }
 
 .product-item h4 {
-    font-size: 18px;
-    margin: 10px 0 5px;
+    font-size: 20px; /* Texto más grande */
+    margin: 12px 0 8px;
+    color: #333; /* Color de texto más oscuro */
+    font-weight: bold; /* Negrita para dar más énfasis */
 }
 
 .product-item p {
     font-size: 16px;
-    margin: 5px 0;
+    margin: 6px 0;
+    color: #666; /* Color de texto más suave */
 }
+
 
 /* Estilos para las opciones de usuario */
 .user-options {
