@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Redirigir a login.html cuando se haga clic en el botón de "Iniciar sesión"
     loginBtn.addEventListener('click', () => redirectTo('login.html'));
 
-    // Cargar productos y solicitudes desde el localStorage
+    // Cargar productos y solicitudes desde localStorage
     let products = JSON.parse(localStorage.getItem('products')) || [];
     let requests = JSON.parse(localStorage.getItem('requests')) || [];
 
@@ -176,6 +176,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Renderizar productos al cargar la página
-    renderProducts(products);
+    // Función para cargar productos desde el archivo JSON
+    function loadProductsFromJson() {
+        fetch('productos.json') // Cambia la ruta si es necesario
+            .then(response => response.json())
+            .then(jsonProducts => {
+                products = [...products, ...jsonProducts]; // Combinar productos de localStorage y JSON
+                renderProducts(products); // Renderizar productos combinados
+            })
+            .catch(error => console.error('Error cargando el archivo JSON:', error));
+    }
+
+    // Llamar a la función para cargar productos al cargar la página
+    loadProductsFromJson();
 });

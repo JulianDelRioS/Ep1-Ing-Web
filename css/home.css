@@ -4,13 +4,12 @@ body {
     padding: 0;
     font-family: 'Roboto', sans-serif;
     background: linear-gradient(150deg, #1370ac, #44a7f9);
-    height: 100vh;
+    min-height: 100vh; /* Cambiar a min-height para permitir que la página se estire */
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
-h2{
+
+h2 {
     font-size: 80px;
     color: white;
 }
@@ -160,7 +159,6 @@ header {
     padding: 20px;
     box-sizing: border-box;
     margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 #upload-section h3 {
@@ -239,55 +237,48 @@ header {
     background-color: #0056b3;
 }
 
-/* Asegúrate de que los botones estén alineados horizontalmente */
-.navbar {
-    display: flex;
-    align-items: center;
-}
-
 .dropdown-categories,
 .show-all-btn {
     margin: 0 10px;
 }
 
 /* Contenedor de productos */
-
 .products-container {
     display: flex;
     flex-wrap: wrap; /* Permite que los productos se envuelvan en filas */
     justify-content: space-between; /* Espaciado entre los elementos */
 }
 
+/* Contenedor de productos */
+
 #productsList {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
-    gap: 16px; /* Espacio entre los productos */
+    gap: 4px; /* Reduce el espacio entre los productos a 4px */
     margin: 20px; /* Margen alrededor del contenedor */
 }
 
-.product-item {
-    border: 1px solid #ccc; /* Bordes para los elementos de producto */
-    padding: 16px; /* Espaciado interno */
-    text-align: center; /* Centrar texto */
-    border-radius: 8px; /* Esquinas redondeadas */
-    background-color: #fff; /* Fondo blanco */
-}
+
+
+
+
 
 /* Ajustar la imagen del producto al contenedor */
 .product-item img {
     width: 100%; /* La imagen ocupará el 100% del ancho del contenedor */
     height: auto; /* Mantendrá la proporción original de la imagen */
-    max-height: 200px; /* Limitar la altura máxima de la imagen para evitar que sea demasiado grande */
+    max-height: 200px; /* Limitar la altura máxima de la imagen */
     object-fit: cover; /* Asegura que la imagen se recorte para ajustarse al espacio sin distorsión */
     border-radius: 5px; /* Bordes redondeados para la imagen */
 }
 /* Estilos para cada producto */
 .product-item {
-    width: 200px;
+    width: 180px; /* Ajustar el ancho del producto para acercar columnas */
     background-color: white;
     border-radius: 10px;
+    height: 300px; /* Altura fija para todos los productos */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    margin: 5px; /* Disminuir el margen entre productos */
     text-align: center;
     padding: 10px;
 }
@@ -316,33 +307,9 @@ header {
     border-radius: 5px; /* Bordes redondeados */
     cursor: pointer; /* Cambia el cursor al pasar por encima */
     transition: background-color 0.3s, transform 0.3s; /* Transiciones suaves */
-    margin-right: 10px; /* Espacio entre el botón y el nombre de usuario */
 }
 
 .logout-btn:hover {
-    background-color: #c82333; /* Rojo más oscuro al pasar el cursor */
-    transform: scale(1.05); /* Efecto de aumento al pasar el cursor */
-}
-
-.user-btn {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    margin-right: 20px; /* Espacio a la derecha del nombre del usuario */
-}
-
-#loginBtn {
-    background-color: #fff;
-    color: #1370ac;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#loginBtn:hover {
-    background-color: #1370ac;
-    color: #fff;
+    background-color: #c82333; /* Color de fondo al pasar el cursor */
+    transform: scale(1.05); /* Aumentar ligeramente el tamaño */
 }
