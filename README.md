@@ -1,4 +1,5 @@
 # MarketLink
+#Nombre integrantes: Julian Del Rio, Cristóbal Reyes, Cristóbal Cameron.
 
 MarketLink es una página web tipo marketplace para la compra y venta de productos. 
 
