@@ -313,3 +313,81 @@ header {
     background-color: #c82333; /* Color de fondo al pasar el cursor */
     transform: scale(1.05); /* Aumentar ligeramente el tamaño */
 }
+/* Estilos generales para dispositivos móviles */
+@media (max-width: 768px) {
+    /* Ajustes para el header */
+    header {
+        flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+        align-items: flex-start; /* Alinear a la izquierda */
+        padding: 10px; /* Ajustar el padding */
+        box-shadow: none; /* Quitar la sombra en móviles */
+    }
+
+    /* Estilo para la barra de navegación */
+    .navbar {
+        flex-direction: column; /* Cambiar a columna */
+        padding: 10px; /* Ajustar el padding */
+    }
+
+    /* Ajustar la barra de búsqueda */
+    .search-container {
+        width: 100%; /* Hacer que ocupe todo el ancho */
+        margin-bottom: 10px; /* Espacio entre la barra de búsqueda y otros elementos */
+        text-align: center; /* Centrar el texto */
+    }
+
+    .search-bar {
+        width: 90%; /* Ajustar el ancho de la barra de búsqueda */
+        padding: 12px; /* Aumentar el padding */
+        font-size: 16px; /* Mantener un tamaño de fuente legible */
+    }
+
+    /* Ajustes para el contenedor de productos */
+    .products-container {
+        display: flex;
+        flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+        align-items: center; /* Alinear al centro */
+        padding: 10px; /* Añadir padding */
+    }
+
+    /* Ajustes para cada producto */
+    .product-item {
+        width: 90%; /* Hacer que los productos ocupen el 90% del ancho */
+        margin: 10px 0; /* Espacio entre productos */
+        padding: 15px; /* Añadir padding a los productos */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para mejorar el diseño */
+        border-radius: 8px; /* Bordes redondeados */
+    }
+
+    /* Ajustar el formulario de agregar producto */
+    #upload-section {
+        width: 90%; /* Ajustar el ancho del formulario */
+        margin: 0 auto; /* Centrar el formulario */
+        padding: 20px; /* Añadir padding */
+        border-radius: 10px; /* Bordes redondeados */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    }
+
+    #uploadProductForm input[type="text"],
+    #uploadProductForm input[type="number"],
+    #uploadProductForm input[type="file"],
+    #uploadProductForm textarea,
+    #uploadProductForm select {
+        font-size: 16px; /* Tamaño de fuente adecuado */
+        padding: 10px; /* Padding adecuado */
+    }
+
+    /* Ajustar el tamaño de los botones */
+    #uploadProductForm button[type="submit"],
+    .upload-btn,
+    .logout-btn,
+    #loginBtn,
+    .show-all-btn {
+        width: 100%; /* Botones ocupen todo el ancho */
+        padding: 15px; /* Aumentar el padding para mejor clicabilidad */
+        font-size: 16px; /* Tamaño de fuente legible */
+        border-radius: 5px; /* Bordes redondeados */
+        margin: 10px 0; /* Espacio entre botones */
+    }
+}
+
