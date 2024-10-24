@@ -7,41 +7,28 @@ if (!adminExists) {
         username: 'admin',
         email: 'admin@marketlink.com',
         password: 'admin123', // Puedes cambiar esta contraseña
-        role: 'admin',
-        region: 'Región Metropolitana', // Agregar región
-        commune: 'Santiago' // Agregar comuna
+        role: 'admin'
     });
     localStorage.setItem('users', JSON.stringify(users));
     console.log('Usuario administrador creado');
 }
 
-// Función para cargar usuarios desde usuarios.json
-async function loadUsers() {
-    const response = await fetch('usuarios.json');
-    const usersFromJson = await response.json();
-    return usersFromJson;
-}
-
 // Manejar la validación de inicio de sesión
-document.querySelector('form').addEventListener('submit', async function(event) {
+document.querySelector('form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const username = document.querySelector('input[name="username"]').value.trim();
     const password = document.querySelector('input[name="password"]').value.trim();
 
-    // Obtener usuarios de localStorage y desde el archivo JSON
-    const usersFromLocalStorage = JSON.parse(localStorage.getItem('users')) || [];
-    const usersFromJson = await loadUsers();
+    // Obtener la lista de usuarios desde localStorage
+    let users = JSON.parse(localStorage.getItem('users')) || [];
 
-    // Combinar los usuarios de ambos orígenes
-    const allUsers = [...usersFromLocalStorage, ...usersFromJson];
-
-    // Buscar el usuario en la lista combinada
-    const user = allUsers.find(user => (user.username === username || user.email === username) && user.password === password);
+    // Buscar el usuario en la lista
+    const user = users.find(user => (user.username === username || user.email === username) && user.password === password);
 
     // Verificar si el usuario existe y si la contraseña coincide
     if (user) {
-        // Guardar el usuario logueado en localStorage, incluyendo región y comuna
+        // Guardar el usuario logueado en localStorage
         localStorage.setItem('loggedInUser', JSON.stringify(user));
 
         // Verificar el rol del usuario

@@ -10,12 +10,10 @@ body {
     justify-content: center;
     align-items: center;
 }
-h2 {
+h2{
     font-size: 80px;
     color: white;
-    margin-top: 1000px; /* Ajusta este valor según sea necesario */
 }
-
 
 /* Estilo para el header */
 header {
@@ -253,46 +251,26 @@ header {
 }
 
 /* Contenedor de productos */
+
+.products-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los productos se envuelvan en filas */
+    justify-content: space-between; /* Espaciado entre los elementos */
+}
+
 #productsList {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los productos se ajusten en filas múltiples */
-    justify-content: flex-start; /* Alinea los productos desde la izquierda */
-    gap: 20px; /* Espacio entre los productos */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
+    gap: 16px; /* Espacio entre los productos */
+    margin: 20px; /* Margen alrededor del contenedor */
 }
 
-/* Estilos para cada producto */
 .product-item {
-    width: calc(25% - 20px); /* Cada producto ocupa el 25% del ancho del contenedor, máximo 4 por fila */
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Espacio entre los elementos */
-    height: 300px; /* Altura fija para evitar que se encoja */
-}
-.product-item button {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los productos se ajusten en filas múltiples */
-    justify-content: flex-start; /* Alinea los productos desde la izquierda */
-    margin-right: 10px; /* Espacio entre los botones */
-    background-color: #007bff; /* Color de fondo para el botón "Ver" */
-    color: white; /* Color de texto */
-    padding: 10px 15px; /* Espaciado interno */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar por encima */
-    transition: background-color 0.3s; /* Transición suave */
-}
-
-.product-item button:last-child {
-    margin-right: 0; /* Elimina el margen derecho del último botón */
-}
-
-.product-item button:hover {
-    opacity: 0.9; /* Efecto hover para ambos botones */
+    border: 1px solid #ccc; /* Bordes para los elementos de producto */
+    padding: 16px; /* Espaciado interno */
+    text-align: center; /* Centrar texto */
+    border-radius: 8px; /* Esquinas redondeadas */
+    background-color: #fff; /* Fondo blanco */
 }
 
 /* Ajustar la imagen del producto al contenedor */
@@ -303,23 +281,25 @@ header {
     object-fit: cover; /* Asegura que la imagen se recorte para ajustarse al espacio sin distorsión */
     border-radius: 5px; /* Bordes redondeados para la imagen */
 }
-
-.product-item:hover {
-    transform: translateY(-5px); /* Levanta el producto al pasar el cursor */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más profunda en hover */
+/* Estilos para cada producto */
+.product-item {
+    width: 200px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 10px;
 }
 
 .product-item h4 {
-    font-size: 20px; /* Texto más grande */
-    margin: 12px 0 8px;
-    color: #333; /* Color de texto más oscuro */
-    font-weight: bold; /* Negrita para dar más énfasis */
+    font-size: 18px;
+    margin: 10px 0 5px;
 }
 
 .product-item p {
     font-size: 16px;
-    margin: 6px 0;
-    color: #666; /* Color de texto más suave */
+    margin: 5px 0;
 }
 
 /* Estilos para las opciones de usuario */
@@ -340,39 +320,29 @@ header {
 }
 
 .logout-btn:hover {
-    background-color: #c82333; /* Color más oscuro al pasar el cursor */
+    background-color: #c82333; /* Rojo más oscuro al pasar el cursor */
     transform: scale(1.05); /* Efecto de aumento al pasar el cursor */
 }
 
-/* Media Queries para responsividad */
-@media (max-width: 768px) {
-    h2 {
-        font-size: 60px; /* Tamaño de fuente más pequeño en pantallas más pequeñas */
-    }
-
-    .search-bar {
-        width: 80%; /* Barra de búsqueda más ancha en móviles */
-    }
-
-    .product-item {
-        width: calc(50% - 20px); /* 2 productos por fila en pantallas pequeñas */
-    }
-
-    #upload-section {
-        width: 90%; /* Ancho del formulario en pantallas pequeñas */
-    }
+.user-btn {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    margin-right: 20px; /* Espacio a la derecha del nombre del usuario */
 }
 
-@media (max-width: 480px) {
-    h2 {
-        font-size: 40px; /* Tamaño de fuente más pequeño en pantallas aún más pequeñas */
-    }
+#loginBtn {
+    background-color: #fff;
+    color: #1370ac;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-    .search-bar {
-        width: 95%; /* Barra de búsqueda ocupando casi todo el ancho en móviles */
-    }
-
-    .product-item {
-        width: 100%; /* 1 producto por fila en móviles */
-    }
+#loginBtn:hover {
+    background-color: #1370ac;
+    color: #fff;
 }

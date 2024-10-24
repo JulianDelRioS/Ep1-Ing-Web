@@ -21,13 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
     logoutBtn.addEventListener('click', () => {
         localStorage.removeItem('token');
         localStorage.removeItem('loggedInUser');
-        window.location.href = 'login.html';
+        redirectTo('login.html');
     });
 
     // Redirigir a login.html cuando se haga clic en el botón de "Iniciar sesión"
-    loginBtn.addEventListener('click', function() {
-        window.location.href = 'login.html'; // Redirigir al usuario a login.html
-    });
+    loginBtn.addEventListener('click', () => redirectTo('login.html'));
+
+    // Cargar productos y solicitudes desde el localStorage
+    let products = JSON.parse(localStorage.getItem('products')) || [];
+    let requests = JSON.parse(localStorage.getItem('requests')) || [];
 
     const productsList = document.getElementById('productsList');
     const uploadProductForm = document.getElementById('uploadProductForm');
@@ -35,36 +37,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const showUploadFormBtn = document.getElementById('showUploadFormBtn');
     const showAllProductsBtn = document.getElementById('showAllProductsBtn');
 
-    // Cargar productos de productos.json
-    fetch('productos.json')
-        .then(response => response.json())
-        .then(fileProducts => {
-            // Cargar productos del localStorage
-            let localStorageProducts = JSON.parse(localStorage.getItem('products')) || [];
+    // Función para redirigir
+    function redirectTo(url) {
+        window.location.href = url;
+    }
 
-            // Combinar productos de productos.json y localStorage
-            let allProducts = [...fileProducts, ...localStorageProducts];
-
-            // Renderizar los productos combinados
-            renderProducts(allProducts);
-        })
-        .catch(error => {
-            console.error('Error al cargar productos desde el archivo JSON:', error);
-        });
-
-    function renderProducts(products) {
+    // Función para renderizar productos
+    function renderProducts(filteredProducts) {
         productsList.innerHTML = '';
-        products.forEach(product => {
+        filteredProducts.forEach(product => {
             const productDiv = document.createElement('div');
             productDiv.classList.add('product-item');
-    
+
             // Mostrar solo la primera imagen
-            let imagesHTML = '';
-            if (product.images.length > 0) {
-                imagesHTML = `<img src="${product.images[0]}" class="product-image" alt="Imagen del producto">`;
-            }
-    
-            // Mostrar solo el nombre y el precio del producto
+            const imagesHTML = product.images.length > 0
+                ? `<img src="${product.images[0]}" class="product-image" alt="Imagen del producto">`
+                : '';
+
+            // Mostrar el nombre y el precio del producto
             productDiv.innerHTML = `
                 ${imagesHTML}
                 <h4>${product.name}</h4>
@@ -76,13 +66,11 @@ document.addEventListener('DOMContentLoaded', function() {
             viewDetailsButton.textContent = 'Ver detalles';
             viewDetailsButton.classList.add('view-details-btn');
             viewDetailsButton.addEventListener('click', () => {
-                // Almacenar el producto seleccionado en localStorage
                 localStorage.setItem('selectedProduct', JSON.stringify(product));
-                // Redirigir a detalles_productos.html
-                window.location.href = 'detalles_producto.html';
+                redirectTo('detalles_producto.html');
             });
             productDiv.appendChild(viewDetailsButton);
-    
+
             // Mostrar el botón de eliminar si el usuario es el propietario
             if (product.userId === loggedInUser.username) {
                 const deleteButton = document.createElement('button');
@@ -93,28 +81,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 deleteButton.addEventListener('click', deleteProduct);
                 productDiv.appendChild(deleteButton);
             }
-    
+
             productsList.appendChild(productDiv);
         });
     }
 
     // Mostrar el formulario de subida de productos
-    showUploadFormBtn.addEventListener('click', function() {
+    showUploadFormBtn.addEventListener('click', () => {
         uploadSection.style.display = 'block';
     });
 
     // Mostrar todos los productos
-    showAllProductsBtn.addEventListener('click', function() {
-        fetch('productos.json')
-            .then(response => response.json())
-            .then(fileProducts => {
-                let localStorageProducts = JSON.parse(localStorage.getItem('products')) || [];
-                let allProducts = [...fileProducts, ...localStorageProducts];
-                renderProducts(allProducts);
-            })
-            .catch(error => {
-                console.error('Error al cargar productos desde el archivo JSON:', error);
-            });
+    showAllProductsBtn.addEventListener('click', () => {
+        renderProducts(products);
     });
 
     // Enviar formulario para solicitar la publicación de un producto
@@ -127,29 +106,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const productDescription = document.getElementById('productDescription').value;
         const productImagesInput = document.getElementById('productImages').files;
 
-        let imagesArray = [];
-        if (productImagesInput.length > 0) {
-            const readers = Array.from(productImagesInput).slice(0, 3).map(file => {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = e => resolve(e.target.result);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
-                });
-            });
-
-            Promise.all(readers).then(images => {
-                imagesArray = images;
-                saveRequest(productName, productPrice, productCategory, productDescription, imagesArray);
-            });
-        } else {
-            saveRequest(productName, productPrice, productCategory, productDescription, imagesArray);
+        // Validar que se suban exactamente 3 imágenes
+        if (productImagesInput.length !== 3) {
+            alert('Debes subir exactamente 3 imágenes.');
+            return;
         }
 
-        uploadProductForm.reset();
-        uploadSection.style.display = 'none';
+        const readers = Array.from(productImagesInput).map(file => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        });
+
+        Promise.all(readers).then(images => {
+            saveRequest(productName, productPrice, productCategory, productDescription, images);
+            uploadProductForm.reset();
+            uploadSection.style.display = 'none';
+        });
     });
 
+    // Función para guardar la solicitud de publicación de un producto
     function saveRequest(name, price, category, description, images) {
         const newRequest = {
             name: name,
@@ -157,22 +136,12 @@ document.addEventListener('DOMContentLoaded', function() {
             category: category,
             description: description,
             images: images,
-            userId: loggedInUser.username,
-            status: 'pending',
-            seller: loggedInUser.username,
-            region: loggedInUser.region || document.getElementById('region').value,
-            commune: loggedInUser.commune || document.getElementById('comuna').value
+            userId: loggedInUser.username, // Almacenar el username del usuario que solicita la publicación
+            status: 'pending'
         };
-    
-        let requests = JSON.parse(localStorage.getItem('requests')) || [];
+
         requests.push(newRequest);
         localStorage.setItem('requests', JSON.stringify(requests));
-
-        // Agregar el producto al localStorage
-        let localStorageProducts = JSON.parse(localStorage.getItem('products')) || [];
-        localStorageProducts.push(newRequest);
-        localStorage.setItem('products', JSON.stringify(localStorageProducts));
-
         alert('Solicitud de publicación enviada exitosamente.');
     }
 
@@ -183,13 +152,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Permitir eliminar si el usuario es el propietario
         if (productUserId === loggedInUser.username) {
-            let localStorageProducts = JSON.parse(localStorage.getItem('products')) || [];
-            localStorageProducts = localStorageProducts.filter(product => product.name !== productName);
-            localStorage.setItem('products', JSON.stringify(localStorageProducts));
-            renderProducts(localStorageProducts);
+            products = products.filter(product => product.name !== productName);
+            localStorage.setItem('products', JSON.stringify(products));
+            renderProducts(products);
             alert('Producto eliminado exitosamente.');
         } else {
             alert('No tienes permiso para eliminar este producto.');
         }
     }
+
+    // Filtrar productos por categoría
+    function filterProductsByCategory(category) {
+        const filteredProducts = products.filter(product => product.category === category);
+        renderProducts(filteredProducts);
+    }
+
+    // Manejar la selección de categorías
+    document.querySelectorAll('.categories-content a').forEach(categoryLink => {
+        categoryLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const category = this.getAttribute('data-category');
+            filterProductsByCategory(category);
+        });
+    });
+
+    // Renderizar productos al cargar la página
+    renderProducts(products);
 });

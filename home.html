@@ -5,6 +5,35 @@
     <title>Inicio - MarketLink</title>
     <link rel="stylesheet" href="css/home.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS básico para mostrar productos en filas */
+        .products-container {
+            display: flex;
+            flex-wrap: wrap; /* Permite que los productos se envuelvan en filas */
+            justify-content: space-between; /* Espaciado entre los elementos */
+        }
+
+        .product-item {
+            flex: 1 1 calc(25% - 10px); /* Cada producto ocupará aproximadamente el 25% del ancho, menos el margen */
+            margin: 5px; /* Espaciado entre los productos */
+            box-sizing: border-box; /* Incluye padding y border en el ancho total */
+            border: 1px solid #ddd; /* Añadir borde para mejorar la visibilidad */
+            padding: 10px; /* Espaciado interno */
+            border-radius: 5px; /* Esquinas redondeadas */
+            text-align: center; /* Centrar el texto */
+        }
+
+        .product-image {
+            max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+            height: auto; /* Mantiene la relación de aspecto */
+        }
+
+        .upload-btn, .show-all-btn, .categories-btn {
+            margin-right: 10px; /* Espaciado entre los botones */
+        }
+
+        /* Otros estilos... */
+    </style>
 </head>
 <body>
     <header>
@@ -26,7 +55,7 @@
                     <a href="#" data-category="hogar">Hogar</a>
                 </div>
             </div>
-            
+
             <!-- Botón para mostrar todos los productos -->
             <button id="showAllProductsBtn" class="show-all-btn">Mostrar todos los productos</button>
 
@@ -52,8 +81,7 @@
 
         <!-- Contenedor de productos subidos -->
         <div class="products-content" id="products-section">
-            <div id="productsList">
-            </div>
+            <div id="productsList" class="products-container"></div> <!-- Agregada la clase products-container -->
         </div>
 
         <!-- Formulario para solicitar la publicación de un producto (oculto por defecto) -->
