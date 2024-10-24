@@ -253,7 +253,7 @@ header {
 
 #productsList {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
+    grid-template-columns: repeat(6, 1fr); /* 4 columnas de igual tamaño */
     gap: 4px; /* Reduce el espacio entre los productos a 4px */
     margin: 20px; /* Margen alrededor del contenedor */
 }
