@@ -8,6 +8,7 @@ MarketLink es una página web tipo marketplace para la compra y venta de product
 - **Publicación de productos**: Los usuarios pueden publicar productos con imágenes y descripciones a través de una solicitud enviada a el usuario administrador.
 - **Borrar productos**:Los usuarios pueden eliminar sus propios productos publicados. 
 - **Búsqueda avanzada**: Permite filtrar productos por categorías.(esta en proceso con los productos json).
+- **Ver detalles**: Se pueden ver los detalles de cada producto.
 
 
 
