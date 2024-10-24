@@ -313,8 +313,13 @@ header {
     background-color: #c82333; /* Color de fondo al pasar el cursor */
     transform: scale(1.05); /* Aumentar ligeramente el tamaño */
 }
+
+
 /* Estilos generales para dispositivos móviles */
 @media (max-width: 768px) {
+    h1 {
+        display: none; /* Ocultar el h1 en pantallas pequeñas */
+    }
     /* Ajustes para el header */
     header {
         flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
@@ -323,10 +328,14 @@ header {
         box-shadow: none; /* Quitar la sombra en móviles */
     }
 
-    /* Estilo para la barra de navegación */
+    /* Ocultar la barra de navegación en dispositivos móviles */
     .navbar {
-        flex-direction: column; /* Cambiar a columna */
-        padding: 10px; /* Ajustar el padding */
+        display: none; /* Ocultar la barra de navegación */
+    }
+
+    /* Mostrar el menú hamburguesa solo en pantallas móviles */
+    .hamburger-menu {
+        display: block; /* Asegurarse de que se muestre el ícono */
     }
 
     /* Ajustar la barra de búsqueda */

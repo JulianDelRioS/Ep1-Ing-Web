@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const userBtn = document.querySelector('.user-btn');
     const loginBtn = document.getElementById('loginBtn');
     const logoutBtn = document.getElementById('logoutBtn');
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const menuToggle = document.getElementById('menuToggle');
 
     // Verificar si hay un usuario logueado
     if (loggedInUser) {
@@ -189,4 +191,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Llamar a la función para cargar productos al cargar la página
     loadProductsFromJson();
+
+    // Lógica para el menú hamburguesa
+    menuToggle.addEventListener('click', () => {
+        hamburgerMenu.style.display = hamburgerMenu.style.display === 'none' || hamburgerMenu.style.display === '' ? 'block' : 'none';
+    });
+
+    // Funciones para manejar los botones del menú hamburguesa
+    function closeHamburgerMenu() {
+        hamburgerMenu.style.display = 'none';
+    }
+
+    // Añadir lógica a los botones del menú hamburguesa
+    document.getElementById('showUploadFormBtnHamburger').addEventListener('click', () => {
+        uploadSection.style.display = 'block';
+        closeHamburgerMenu();
+    });
+
+    document.getElementById('showAllProductsBtnHamburger').addEventListener('click', () => {
+        renderProducts(products);
+        closeHamburgerMenu();
+    });
+
+    document.getElementById('loginBtnHamburger').addEventListener('click', () => {
+        redirectTo('login.html');
+        closeHamburgerMenu();
+    });
+
+    document.getElementById('logoutBtnHamburger').addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('loggedInUser');
+        redirectTo('login.html');
+        closeHamburgerMenu();
+    });
+    
 });
