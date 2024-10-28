@@ -20,8 +20,10 @@ header {
 
 header h1 {
     margin: 0;
+    font-size: 2em; /* Tamaño de fuente para el encabezado */
 }
 
+/* Navegación */
 nav {
     margin-top: 10px;
     text-align: center;
@@ -107,11 +109,70 @@ main h2 {
 .reject-btn:hover {
     background-color: #e53935;
 }
-
-/* Mensaje de no solicitudes pendientes */
-#solicitudesContainer p {
-    text-align: center;
-    color: #757575;
-    font-size: 1.1em;
+#solicitudesContainer, #productosContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaciado entre los elementos */
+}
+div {
+    background-color: #f9f9f9; /* Fondo de las solicitudes y productos */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+button {
+    background-color: #4CAF50; /* Botón de aprobar */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+button:hover {
+    background-color: #45a049; /* Color más oscuro al pasar el mouse */
 }
 
+button.delete-btn {
+    background-color: #FF5733; /* Botón de eliminar */
+}
+
+button.delete-btn:hover {
+    background-color: #c0392b; /* Color más oscuro al pasar el mouse */
+}
+
+/* Estilos específicos para pantallas de 828px */
+@media (max-width: 828px) {
+    header h1 {
+        font-size: 26px; /* Tamaño de fuente más pequeño en móviles */
+    }
+
+    h2 {
+        margin-bottom: 30px; /* Aumentar el margen inferior para mayor separación */
+    }
+
+    nav {
+        flex-direction: column; /* Cambiar a vertical en móviles */
+        align-items: center; /* Centrar elementos en el nav */
+    }
+
+    nav button, nav a {
+        padding: 10px;
+        width: 100%; /* Botones ocupan todo el ancho */
+        text-align: center; /* Centrar el texto de los botones */
+    }
+
+    #solicitudesContainer, #productosContainer {
+        padding: 10px; /* Ajustar el padding para pantallas más pequeñas */
+    }
+
+    div:hover {
+        transform: scale(1.1); /* Efecto de hover para resaltar el producto */
+    }
+
+    button {
+        width: 100%; /* Botones ocupan todo el ancho en pantallas pequeñas */
+        margin: 5px 0; /* Espaciado vertical entre botones */
+    }
+}

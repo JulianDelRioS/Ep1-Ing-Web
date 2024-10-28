@@ -43,9 +43,9 @@ body {
     transition: transform 0.3s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
     margin: 0 5px; /* Espacio entre imágenes */
-    max-width: 90%; /* Ajustar al tamaño máximo */
     height: auto; /* Mantener la relación de aspecto */
-    max-height: 300px; /* Limitar la altura de las imágenes para que sean más grandes */
+    max-height: 40%; /* Permitir que la altura sea la de la imagen original */
+    max-width: 40%; /* Limitar el ancho a 100% del contenedor */
 }
 
 /* hover sobre las imágenes */
@@ -107,7 +107,7 @@ body {
 }
 
 /* estilo para pantallas pequeñas */
-@media (max-width: 768px) {
+@media (max-width: 828px) {
     #productDetails {
         flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
         padding: 15px;
@@ -119,16 +119,19 @@ body {
     }
 
     .product-info h1 {
-        font-size: 1.5em;
+        font-size: 1.5em; /* Ajustar el tamaño del título en móvil */
     }
 
     .product-info p {
-        font-size: 1em;
+        font-size: 1em; /* Ajustar el tamaño del texto en móvil */
     }
 
     .product-image {
-        width: 100%; /* Imágenes ocupan el 100% del contenedor */
-        margin: 0; /* Sin margen para imagen */
-        max-height: 200px; /* Limitar la altura de las imágenes para móviles */
+        width: auto; /* Permitir el ancho automático de la imagen */
+        max-height: none; /* Permitir que la altura sea la de la imagen original */
+    }
+
+    .carousel-button {
+        padding: 8px; /* Reducir el tamaño de los botones en móviles */
     }
 }
