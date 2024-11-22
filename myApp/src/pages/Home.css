@@ -1,0 +1,73 @@
+/* Header Section */
+.header-logo-title {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .hero-section h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .hero-section p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 10px;
+  }
+  
+  /* Action Cards */
+  .action-cards {
+    margin-top: 30px;
+  }
+  
+  .action-cards .ion-card {
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  .action-cards h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .action-cards p {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  .iniciar-sesion-btn, .crear-cuenta-btn, .main-page-btn {
+    margin-top: 20px;
+    background-color: #3880ff;
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px 20px;
+  }
+  
+  .iniciar-sesion-btn:hover, .crear-cuenta-btn:hover {
+    background-color: #3171e0;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Footer Section */
+  .footer-text {
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
