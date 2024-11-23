@@ -219,3 +219,5 @@ const Registro: React.FC = () => {
 };
 
 export default Registro;
+
+
