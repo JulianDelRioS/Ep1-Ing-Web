@@ -1,0 +1,17 @@
+
+/* Ocultar la toolbar en dispositivos pequeños */
+.toolbar-desktop {
+    display: block !important;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .toolbar-desktop {
+      display: none;
+    }
+  
+    /* Ajustar el menú hamburguesa para dispositivos móviles */
+    .menu-mobile {
+      display: block;
+    }
+  }
+  

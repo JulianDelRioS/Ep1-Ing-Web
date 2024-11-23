@@ -11,12 +11,16 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonSearchbar, // Importa IonSearchbar
+  IonSearchbar,
+  IonMenu,
+  IonMenuToggle,
+  IonIcon,
+  IonMenuButton,
 } from "@ionic/react";
-import { useHistory } from "react-router-dom"; // Importar useHistory para redirigir
+import { useHistory } from "react-router-dom";
+import { menu } from "ionicons/icons"; // Importa el ícono de menú hamburguesa
 
 const MainPage: React.FC = () => {
-  // Estados para manejar qué categoría está activa
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [popoverState, setPopoverState] = useState<{
     show: boolean;
@@ -24,7 +28,6 @@ const MainPage: React.FC = () => {
   }>({ show: false, event: undefined });
   const [searchText, setSearchText] = useState<string>("");
 
-  // Definir categorías y subcategorías
   const categories = [
     { name: "Electrónica", subcategories: ["Celulares", "Televisores", "Computadoras", "Cámaras"] },
     { name: "Ropa", subcategories: ["Hombres", "Mujeres", "Niños"] },
@@ -36,7 +39,7 @@ const MainPage: React.FC = () => {
     { name: "Arte y Manualidades", subcategories: ["Pinturas", "Escultura", "Materiales para manualidades", "Lanas y hilos"] },
   ];
 
-  const history = useHistory(); // Usamos useHistory para redirigir
+  const history = useHistory();
 
   const handleCategoryClick = (event: any, category: string) => {
     setSelectedCategory(category);
@@ -44,69 +47,79 @@ const MainPage: React.FC = () => {
   };
 
   const handleProfileClick = () => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn"); // Verificar si hay sesión activa en localStorage
-
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
     if (isLoggedIn) {
-      // Si está logueado, muestra el mensaje
       alert("¡Accediendo a tu perfil!");
     } else {
-      // Si no está logueado, redirige a la página de login
       history.push("/login");
     }
   };
 
   return (
     <IonPage>
+      {/* Menú hamburguesa */}
+      <IonMenu contentId="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Menú</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonList>
+            {categories.map((category) => (
+              <IonItem
+                button
+                key={category.name}
+                onClick={(e) => handleCategoryClick(e, category.name)}
+              >
+                <IonLabel>{category.name}</IonLabel>
+              </IonItem>
+            ))}
+          </IonList>
+        </IonContent>
+      </IonMenu>
+
       <IonHeader>
-        <IonToolbar color="black">
+        <IonToolbar color="black" className="toolbar-desktop">
+          <IonButtons slot="start">
+            {/* Icono de menú hamburguesa */}
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>
             <div className="header-logo-title" style={{ display: "flex", alignItems: "center" }}>
               <img
                 src="https://cdn-icons-png.flaticon.com/512/281/281397.png"
                 alt="Logo de MarketLink"
                 className="logo"
-                style={{ width: "40px", marginRight: "5px" }} // Ajusta el margen para acercarlo más
+                style={{ width: "40px", marginRight: "5px" }}
               />
               <span className="marketlink-title">MarketLink</span>
             </div>
           </IonTitle>
-
-          <IonButtons slot="end">
-            {/* Barra de búsqueda */}
+          <IonButtons slot="end" style={{ display: "flex", alignItems: "center" }}>
             <IonSearchbar
               value={searchText}
               onIonInput={(e: any) => setSearchText(e.target.value)}
-              debounce={0} // Ajusta el tiempo de espera para actualizar el texto
+              debounce={0}
               placeholder="Buscar productos..."
-              style={{ width: "180px", marginLeft: "5px" }} // Reducir el ancho y acercar con marginLeft
+              style={{ width: "180px", marginLeft: "5px" }}
             />
-            {categories.map((category) => (
-              <IonButton
-                key={category.name}
-                onClick={(e) => handleCategoryClick(e, category.name)}
-              >
-                {category.name}
-              </IonButton>
-            ))}
-
-            {/* Icono de perfil al final de las categorías */}
-            <IonButton onClick={handleProfileClick} style={{ display: "flex", alignItems: "center" }}>
+            {/* Icono de perfil */}
+            <IonButton onClick={handleProfileClick} style={{ display: "flex", alignItems: "center", marginLeft: "10px" }}>
               <img
                 src="https://cdn-icons-png.flaticon.com/512/4908/4908415.png"
                 alt="Perfil"
-                style={{ width: "30px", marginLeft: "10px" }}
+                style={{ width: "30px" }}
               />
-              <span style={{ marginLeft: "5px" }}>Mi Perfil</span>
             </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding">
+      <IonContent className="ion-padding" id="main-content">
         <h1>Bienvenido a MarketLink</h1>
         <p>Explora nuestras categorías y encuentra lo que necesitas.</p>
 
-        {/* Popover para mostrar subcategorías */}
         <IonPopover
           isOpen={popoverState.show}
           event={popoverState.event}
