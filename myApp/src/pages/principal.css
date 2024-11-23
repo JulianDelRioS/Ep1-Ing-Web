@@ -2,25 +2,23 @@
 
 /* Estilos generales */
 .categories-menu {
-  display: none; /* El menú estará oculto por defecto */
+  display: flex; /* El menú de categorías será visible por defecto (en computadoras) */
 }
 
-/* MainPage.css */
-
-/* Solo mostrar el botón de menú en pantallas pequeñas */
-@media only screen and (max-width: 767px) {
-  .header-logo-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+  /* El menú de categorías será oculto en dispositivos móviles */
+  .categories-menu {
+    display: none;
   }
 
-  .logo {
-    width: 40px;
-    margin-right: 5px;
+  /* El menú hamburguesa será visible solo en dispositivos móviles */
+  .menu-hamburguesa {
+    display: block;
   }
+}
 
-  .marketlink-title {
-    font-size: 18px;
-  }
+/* El menú hamburguesa estará oculto en pantallas grandes por defecto */
+.menu-hamburguesa {
+  display: none;
 }

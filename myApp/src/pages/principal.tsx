@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  IonPopover,
   IonContent,
   IonHeader,
   IonPage,
@@ -8,8 +7,7 @@ import {
   IonTitle,
   IonButtons,
   IonButton,
-  IonMenu,
-  IonMenuButton,
+  IonPopover,
   IonList,
   IonItem,
   IonLabel,
@@ -59,67 +57,52 @@ const MainPage: React.FC = () => {
 
   return (
     <IonPage>
-      {/* Menú hamburguesa */}
-      <IonMenu contentId="main-content" side="start" type="reveal">
-        <IonHeader>
-          <IonToolbar color="black">
-            <IonTitle>
-              <div className="header-logo-title" style={{ display: "flex", alignItems: "center" }}>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/281/281397.png"
-                  alt="Logo de MarketLink"
-                  className="logo"
-                  style={{ width: "40px", marginRight: "5px" }} // Ajusta el margen para acercarlo más
-                />
-                <span className="marketlink-title">MarketLink</span>
-              </div>
-            </IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          {/* Menú de categorías */}
-          <IonList>
-            {categories.map((category) => (
-              <IonItem button key={category.name} onClick={(e) => handleCategoryClick(e, category.name)}>
-                <IonLabel>{category.name}</IonLabel>
-              </IonItem>
-            ))}
-          </IonList>
-        </IonContent>
-      </IonMenu>
-
-      {/* Contenido principal */}
-      <IonContent id="main-content" className="ion-padding">
-        <IonHeader>
-          <IonToolbar color="black">
-            <IonButtons slot="start">
-              {/* Botón hamburguesa solo en móviles */}
-              <IonMenuButton />
-            </IonButtons>
-            <IonTitle>MarketLink</IonTitle>
-
-            <IonButtons slot="end">
-              {/* Barra de búsqueda */}
-              <IonSearchbar
-                value={searchText}
-                onIonInput={(e: any) => setSearchText(e.target.value)}
-                debounce={0} // Ajusta el tiempo de espera para actualizar el texto
-                placeholder="Buscar productos..."
-                style={{ width: "180px", marginLeft: "5px" }} // Reducir el ancho y acercar con marginLeft
+      <IonHeader>
+        <IonToolbar color="black">
+          <IonTitle>
+            <div className="header-logo-title" style={{ display: "flex", alignItems: "center" }}>
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/281/281397.png"
+                alt="Logo de MarketLink"
+                className="logo"
+                style={{ width: "40px", marginRight: "5px" }} // Ajusta el margen para acercarlo más
               />
-              {/* Icono de perfil */}
-              <IonButton onClick={handleProfileClick} style={{ display: "flex", alignItems: "center" }}>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/4908/4908415.png"
-                  alt="Perfil"
-                  style={{ width: "30px", marginLeft: "10px" }}
-                />
-                <span style={{ marginLeft: "5px" }}>Mi Perfil</span>
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
+              <span className="marketlink-title">MarketLink</span>
+            </div>
+          </IonTitle>
 
+          <IonButtons slot="end">
+            {/* Barra de búsqueda */}
+            <IonSearchbar
+              value={searchText}
+              onIonInput={(e: any) => setSearchText(e.target.value)}
+              debounce={0} // Ajusta el tiempo de espera para actualizar el texto
+              placeholder="Buscar productos..."
+              style={{ width: "180px", marginLeft: "5px" }} // Reducir el ancho y acercar con marginLeft
+            />
+            {categories.map((category) => (
+              <IonButton
+                key={category.name}
+                onClick={(e) => handleCategoryClick(e, category.name)}
+              >
+                {category.name}
+              </IonButton>
+            ))}
+
+            {/* Icono de perfil al final de las categorías */}
+            <IonButton onClick={handleProfileClick} style={{ display: "flex", alignItems: "center" }}>
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/4908/4908415.png"
+                alt="Perfil"
+                style={{ width: "30px", marginLeft: "10px" }}
+              />
+              <span style={{ marginLeft: "5px" }}>Mi Perfil</span>
+            </IonButton>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+
+      <IonContent className="ion-padding">
         <h1>Bienvenido a MarketLink</h1>
         <p>Explora nuestras categorías y encuentra lo que necesitas.</p>
 
