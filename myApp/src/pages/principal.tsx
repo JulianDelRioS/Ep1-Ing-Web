@@ -11,6 +11,7 @@ import {
   IonList,
   IonItem,
   IonLabel,
+  IonSearchbar, // Importa IonSearchbar
 } from "@ionic/react";
 
 const MainPage: React.FC = () => {
@@ -20,21 +21,18 @@ const MainPage: React.FC = () => {
     show: boolean;
     event: Event | undefined;
   }>({ show: false, event: undefined });
+  const [searchText, setSearchText] = useState<string>("");
 
   // Definir categorías y subcategorías
   const categories = [
-    {
-      name: "Electrónica",
-      subcategories: ["Celulares", "Televisores", "Computadoras", "Cámaras"],
-    },
-    {
-      name: "Ropa",
-      subcategories: ["Hombres", "Mujeres", "Niños"],
-    },
-    {
-      name: "Hogar",
-      subcategories: ["Muebles", "Electrodomésticos", "Decoración"],
-    },
+    { name: "Electrónica", subcategories: ["Celulares", "Televisores", "Computadoras", "Cámaras"] },
+    { name: "Ropa", subcategories: ["Hombres", "Mujeres", "Niños"] },
+    { name: "Hogar", subcategories: ["Muebles", "Electrodomésticos", "Decoración"] },
+    { name: "Deportes", subcategories: ["Fútbol", "Ciclismo", "Running", "Natación", "Gimnasia"] },
+    { name: "Automotriz", subcategories: ["Accesorios para autos", "Neumáticos", "Herramientas", "Repuestos"] },
+    { name: "Juguetes", subcategories: ["Juguetes educativos", "Muñecas", "Juguetes de construcción", "Juguetes para bebé"] },
+    { name: "Libros", subcategories: ["Ficción", "No Ficción", "Infantiles", "Cómics", "Educación"] },
+    { name: "Arte y Manualidades", subcategories: ["Pinturas", "Escultura", "Materiales para manualidades", "Lanas y hilos"] },
   ];
 
   const handleCategoryClick = (event: any, category: string) => {
@@ -42,21 +40,36 @@ const MainPage: React.FC = () => {
     setPopoverState({ show: true, event });
   };
 
+  const handleProfileClick = () => {
+    // Aquí puedes agregar la acción que quieras para el perfil, como redirigir o abrir un modal
+    alert("¡Accediendo a tu perfil!");
+  };
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar color="black">
           <IonTitle>
-            <div className="header-logo-title">
+            <div className="header-logo-title" style={{ display: "flex", alignItems: "center" }}>
               <img
                 src="https://cdn-icons-png.flaticon.com/512/281/281397.png"
                 alt="Logo de MarketLink"
                 className="logo"
+                style={{ width: "40px", marginRight: "5px" }} // Ajusta el margen para acercarlo más
               />
               <span className="marketlink-title">MarketLink</span>
             </div>
           </IonTitle>
+
           <IonButtons slot="end">
+            {/* Barra de búsqueda */}
+            <IonSearchbar
+              value={searchText}
+              onIonInput={(e: any) => setSearchText(e.target.value)}
+              debounce={0} // Ajusta el tiempo de espera para actualizar el texto
+              placeholder="Buscar productos..."
+              style={{ width: "180px", marginLeft: "5px" }} // Reducir el ancho y acercar con marginLeft
+            />
             {categories.map((category) => (
               <IonButton
                 key={category.name}
@@ -65,6 +78,16 @@ const MainPage: React.FC = () => {
                 {category.name}
               </IonButton>
             ))}
+
+            {/* Icono de perfil al final de las categorías */}
+            <IonButton onClick={handleProfileClick} style={{ display: "flex", alignItems: "center" }}>
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/4908/4908415.png"
+                alt="Perfil"
+                style={{ width: "30px", marginLeft: "10px" }}
+              />
+              <span style={{ marginLeft: "5px" }}>Mi Perfil</span>
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -72,6 +95,8 @@ const MainPage: React.FC = () => {
       <IonContent className="ion-padding">
         <h1>Bienvenido a MarketLink</h1>
         <p>Explora nuestras categorías y encuentra lo que necesitas.</p>
+        
+        {/* Popover para mostrar subcategorías */}
         <IonPopover
           isOpen={popoverState.show}
           event={popoverState.event}
