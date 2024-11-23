@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle, IonButton, IonFooter, IonText, IonItem, IonLabel, IonInput, IonRow, IonCol, IonCard, IonCardContent, IonSelect, IonSelectOption, IonDatetime } from '@ionic/react';
+import { 
+  IonContent, IonHeader, IonPage, IonToolbar, IonTitle, IonButton, IonFooter, 
+  IonItem, IonLabel, IonInput, IonRow, IonCol, IonCard, IonCardContent, 
+  IonSelect, IonSelectOption, IonDatetime, IonText
+} from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import './registro.css';
 
@@ -12,16 +16,15 @@ const Registro: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [rut, setRut] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [region, setRegion] = useState<string>('');  // Asegúrate de que sea solo una cadena
-  const [comuna, setComuna] = useState<string>('');  // Asegúrate de que sea solo una cadena
+  const [region, setRegion] = useState<string>('');
+  const [comuna, setComuna] = useState<string>('');
+  const [mensaje, setMensaje] = useState('');
 
-  // Regiones de Chile y sus comunas
   const regiones = [
     'Arica y Parinacota', 'Tarapacá', 'Antofagasta', 'Atacama', 'Coquimbo',
     'Valparaíso', 'Metropolitana de Santiago', 'O’Higgins', 'Maule', 'Ñuble',
     'Biobío', 'La Araucanía', 'Los Ríos', 'Los Lagos', 'Aysén del General Carlos Ibáñez del Campo', 'Magallanes y de la Antártica Chilena'
   ];
-
   const comunas: { [key: string]: string[] } = {
     'Arica y Parinacota': ['Arica', 'Camarones', 'Putre', 'General Lagos'],
     'Tarapacá': ['Iquique', 'Alto Hospicio', 'Pozo Almonte', 'Camiña', 'Colchane', 'Huara', 'Pica'],
@@ -41,20 +44,46 @@ const Registro: React.FC = () => {
     'Magallanes y de la Antártica Chilena': ['Punta Arenas', 'Puerto Natales', 'Porvenir', 'Cabo de Hornos', 'Antártica']
   };
 
-  const handleRegister = () => {
-    // Validación manual
+  const handleRegister = async () => {
+    // Validaciones antes de enviar
     if (!nombre || !email || !password || !confirmPassword || !rut || !fechaNacimiento || !region || !comuna) {
-      console.log("Por favor, completa todos los campos.");
+      setMensaje('Por favor, completa todos los campos.');
       return;
     }
 
     if (password !== confirmPassword) {
-      console.log('Las contraseñas no coinciden');
+      setMensaje('Las contraseñas no coinciden.');
       return;
     }
 
-    console.log('Registro exitoso');
-    history.push('/login');
+    // Enviar los datos al backend
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/signup', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          nombre,
+          email,
+          password,
+          rut,
+          fechaNacimiento,
+          region,
+          comuna,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMensaje('Usuario creado exitosamente.');
+        setTimeout(() => history.push('/login'), 2000); // Redirige después de 2 segundos
+      } else {
+        setMensaje(data.error || 'Error al crear el usuario.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setMensaje('Error al conectar con el servidor.');
+    }
   };
 
   return (
@@ -84,18 +113,16 @@ const Registro: React.FC = () => {
         <IonCard>
           <IonCardContent>
             <IonRow>
+              {/* Campos del formulario */}
               <IonCol size="12">
-                
                 <IonItem>
-                    <IonLabel>Nombre Completo:</IonLabel>
-                    <IonInput 
-                        value={nombre} 
-                        onIonChange={e => setNombre(e.detail.value!)} 
-                        style={{ marginLeft: '2%' }}
-                    />
+                  <IonLabel>Nombre Completo:</IonLabel>
+                  <IonInput 
+                    value={nombre} 
+                    onIonChange={e => setNombre(e.detail.value!)} 
+                  />
                 </IonItem>
               </IonCol>
-
               <IonCol size="12">
                 <IonItem>
                     <IonLabel>Correo Electrónico:</IonLabel>
@@ -200,18 +227,25 @@ const Registro: React.FC = () => {
                     ))}
                   </IonSelect>
                 </IonItem>
-              </IonCol>
+              </IonCol>                          
             </IonRow>
 
             {/* Botón de Registro */}
-            <IonButton expand="full" onClick={handleRegister}>Registrarse</IonButton>
+            <IonButton expand="full" onClick={handleRegister}>
+              Registrarse
+            </IonButton>
           </IonCardContent>
         </IonCard>
+
+        {/* Mensaje */}
+        {mensaje && <IonText color={mensaje.includes('exitosamente') ? 'success' : 'danger'}>
+          <p style={{ textAlign: 'center', marginTop: '10px' }}>{mensaje}</p>
+        </IonText>}
       </IonContent>
 
       <IonFooter>
         <IonButton fill="clear" onClick={() => history.push('/login')}>
-          Ya tienes cuenta? Inicia sesión
+          ¿Ya tienes cuenta? Inicia sesión
         </IonButton>
       </IonFooter>
     </IonPage>
@@ -219,5 +253,3 @@ const Registro: React.FC = () => {
 };
 
 export default Registro;
-
-
