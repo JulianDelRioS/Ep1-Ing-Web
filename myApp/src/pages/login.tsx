@@ -1,48 +1,57 @@
-import React, { useState } from "react";
-import "./login.css"; // Asegúrate de importar el archivo CSS
-import ReCAPTCHA from "react-google-recaptcha";
-
-import {
-  IonContent,
-  IonPage,
-  IonInput,
-  IonButton,
-  IonItem,
-  IonToast,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-} from "@ionic/react";
-import { useForm, Controller } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import { 
+  IonContent, IonHeader, IonPage, IonToolbar, IonTitle, IonButton, IonFooter, 
+  IonItem, IonLabel, IonInput, IonRow, IonCol, IonCard, IonCardContent, 
+  IonText
+} from '@ionic/react';
+import { useHistory } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha'; // Importa el componente reCAPTCHA
+import './login.css';
 
 const Login: React.FC = () => {
-  const { control, handleSubmit } = useForm();
-  const [showToast, setShowToast] = useState(false);
-  const [captchaValid, setCaptchaValid] = useState(false); // Estado para verificar reCAPTCHA
   const history = useHistory();
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [mensaje, setMensaje] = useState('');
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
 
-  const onSubmit = (data: any) => {
-    if (!captchaValid) {
-      setShowToast(true); // Muestra un mensaje si el reCAPTCHA no es válido
+  const handleLogin = async () => {
+    // Validaciones antes de enviar
+    if (!email || !password) {
+      setMensaje('Por favor, ingresa tu correo electrónico y contraseña.');
       return;
     }
 
-    console.log("Datos del formulario:", data);
-    if (data.username === "admin" && data.password === "1234") {
-      alert("Inicio de sesión exitoso");
-      history.push("/home"); // Redirige al usuario a la página principal
-    } else {
-      setShowToast(true); // Muestra un mensaje de error
+    // Validar el CAPTCHA
+    if (!captchaValue) {
+      setMensaje('Por favor, verifica que no eres un robot.');
+      return;
     }
-  };
 
-  // Manejar el éxito del reCAPTCHA
-  const onCaptchaChange = (value: string | null) => {
-    if (value) {
-      setCaptchaValid(true); // Marca el reCAPTCHA como válido
-    } else {
-      setCaptchaValid(false); // Marca el reCAPTCHA como inválido
+    // Enviar los datos al backend
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+          captcha: captchaValue,  // Enviar el valor del CAPTCHA
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMensaje('Inicio de sesión exitoso.');
+        setTimeout(() => history.push('/principal'), 2000); // Redirige después de 2 segundos a la página de inicio
+      } else {
+        setMensaje(data.error || 'Error al iniciar sesión.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setMensaje('Error al conectar con el servidor.');
     }
   };
 
@@ -52,94 +61,78 @@ const Login: React.FC = () => {
         <IonToolbar color="black">
           <IonTitle>
             <div className="header-logo-title">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/281/281397.png"
+              <img 
+                src="https://cdn-icons-png.flaticon.com/512/281/281397.png" 
                 alt="Logo de MarketLink"
                 className="logo"
               />
-              Inicio de sesión
+              MarketLink
             </div>
           </IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <div className="login-container">
-          {/* Formulario de inicio de sesión */}
-          <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-            <h2 className="login-title">Iniciar Sesión</h2>
-
-            {/* Campo Usuario */}
-            <IonItem className="login-item">
-              <Controller
-                name="username"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <IonInput
-                    {...field}
-                    placeholder="Ingrese su usuario"
-                    required
-                  />
-                )}
-              />
-            </IonItem>
-
-            {/* Campo Contraseña */}
-            <IonItem className="login-item">
-              <Controller
-                name="password"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <IonInput
-                    {...field}
-                    type="password"
-                    placeholder="Ingrese su contraseña"
-                    required
-                  />
-                )}
-              />
-            </IonItem>
-
-            {/* reCAPTCHA */}
-            <div className="captcha-container">
-              <ReCAPTCHA
-                sitekey="6LfM9IcqAAAAAEprABk8l-YZLx1SLbZKj1lZJvrl" // Clave del sitio
-                onChange={onCaptchaChange}
-              />
-            </div>
-
-            {/* Botón de iniciar sesión */}
-            <IonButton expand="block" type="submit" className="login-button">
-              Iniciar Sesión
-            </IonButton>
-
-            {/* Botón de registro */}
-            <IonButton
-              expand="block"
-              fill="outline"
-              className="register-button"
-              onClick={() => history.push("/registro")}
-            >
-              Crear Cuenta
-            </IonButton>
-          </form>
+        <div className="hero-section">
+          <h1>Inicia Sesión</h1>
+          <p>Accede a tu cuenta para comprar o vender productos.</p>
         </div>
 
-        {/* Mensaje de error */}
-        <IonToast
-          isOpen={showToast}
-          onDidDismiss={() => setShowToast(false)}
-          message={
-            captchaValid
-              ? "Usuario o contraseña incorrectos"
-              : "Por favor, verifica el reCAPTCHA"
-          }
-          duration={2000}
-          color="danger"
-        />
+        {/* Formulario de Login */}
+        <IonCard>
+          <IonCardContent>
+            <IonRow>
+              <IonCol size="12">
+                <IonItem>
+                  <IonLabel>Correo Electrónico:</IonLabel>
+                  <IonInput 
+                    value={email} 
+                    onIonChange={e => setEmail(e.detail.value!)} 
+                    type="email"
+                  />
+                </IonItem>
+              </IonCol>
+
+              <IonCol size="12">
+                <IonItem>
+                  <IonLabel>Contraseña:</IonLabel>
+                  <IonInput 
+                    type="password" 
+                    value={password} 
+                    onIonChange={e => setPassword(e.detail.value!)} 
+                  />
+                </IonItem>
+              </IonCol>
+            </IonRow>
+
+            {/* CAPTCHA de Google */}
+            <IonRow>
+              <IonCol size="12">
+                <ReCAPTCHA
+                  sitekey="6LfM9IcqAAAAAEprABk8l-YZLx1SLbZKj1lZJvrl"  // Reemplaza con tu clave de sitio
+                  onChange={setCaptchaValue}
+                />
+              </IonCol>
+            </IonRow>
+
+            {/* Botón de Login */}
+            <IonButton expand="full" onClick={handleLogin}>
+              Iniciar sesión
+            </IonButton>
+          </IonCardContent>
+        </IonCard>
+
+        {/* Mensaje */}
+        {mensaje && <IonText color={mensaje.includes('exitoso') ? 'success' : 'danger'}>
+          <p style={{ textAlign: 'center', marginTop: '10px' }}>{mensaje}</p>
+        </IonText>}
       </IonContent>
+
+      <IonFooter>
+        <IonButton fill="clear" onClick={() => history.push('/register')}>
+          ¿No tienes cuenta? Regístrate
+        </IonButton>
+      </IonFooter>
     </IonPage>
   );
 };

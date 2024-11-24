@@ -43,4 +43,46 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+// Endpoint para "Iniciar sesión" (POST /login)
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "El email y la contraseña son obligatorios" });
+  }
+
+  try {
+    // Verificar si el usuario existe en la base de datos
+    const query = `SELECT * FROM usuarios WHERE email = $1`;
+    const values = [email];
+    const result = await client.query(query, values);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    const user = result.rows[0];
+
+    // Comparar la contraseña proporcionada con la almacenada
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ error: "Contraseña incorrecta" });
+    }
+
+    // Respuesta en caso de éxito (podrías devolver un token JWT aquí, si lo necesitas)
+    res.status(200).json({
+      message: "Inicio de sesión exitoso",
+      user: {
+        id: user.id,
+        nombre: user.nombre,
+        email: user.email,
+        fecha_registro: user.fecha_registro,
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error al iniciar sesión" });
+  }
+});
 module.exports = router;
