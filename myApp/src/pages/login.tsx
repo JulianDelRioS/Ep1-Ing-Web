@@ -129,7 +129,7 @@ const Login: React.FC = () => {
       </IonContent>
 
       <IonFooter>
-        <IonButton fill="clear" onClick={() => history.push('/register')}>
+        <IonButton fill="clear" onClick={() => history.push('/registro')}>
           ¿No tienes cuenta? Regístrate
         </IonButton>
       </IonFooter>
