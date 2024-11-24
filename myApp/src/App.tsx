@@ -5,6 +5,7 @@ import Home from './pages/Home';       // Asegúrate de que la ruta de tu archiv
 import Registro from './pages/resgistro';  // Asegúrate de que la ruta de tu archivo Registro.tsx sea correcta
 import login from './pages/login';
 import principal from './pages/principal';
+import publicar from './pages/publicar';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -51,6 +52,8 @@ const App: React.FC = () => (
         <Route exact path="/login" component={login} />
 
         <Route exact path="/principal" component={principal} />
+
+        <Route exact path="/publicar" component={publicar} />
 
         {/* Redirección para la ruta raíz */}
         <Route exact path="/">

@@ -19,6 +19,8 @@ import {
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { menu } from "ionicons/icons"; // Importa el ícono de menú hamburguesa
+import publicar from "./publicar";  // Importa la página de publicación de producto
+
 
 const MainPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -55,6 +57,11 @@ const MainPage: React.FC = () => {
     }
   };
 
+  const handlePublishProductClick = () => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    history.push("./publicar"); // Asegúrate de tener esta ruta configurada
+  };
+
   return (
     <IonPage>
       {/* Menú hamburguesa */}
@@ -66,6 +73,12 @@ const MainPage: React.FC = () => {
         </IonHeader>
         <IonContent>
           <IonList>
+            {/* Botón para publicar un producto */}
+            <IonItem button onClick={handlePublishProductClick}>
+              <IonLabel style={{ color: "green" }}>Publicar un Producto</IonLabel>
+            </IonItem>
+
+            {/* Categorías */}
             {categories.map((category) => (
               <IonItem
                 button
