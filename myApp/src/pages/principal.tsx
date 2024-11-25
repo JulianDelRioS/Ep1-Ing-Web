@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IonContent,
   IonHeader,
@@ -13,14 +13,10 @@ import {
   IonLabel,
   IonSearchbar,
   IonMenu,
-  IonMenuToggle,
-  IonIcon,
   IonMenuButton,
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import { menu } from "ionicons/icons"; // Importa el ícono de menú hamburguesa
-import publicar from "./publicar";  // Importa la página de publicación de producto
-
 
 const MainPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -29,6 +25,7 @@ const MainPage: React.FC = () => {
     event: Event | undefined;
   }>({ show: false, event: undefined });
   const [searchText, setSearchText] = useState<string>("");
+  const [usuario, setUsuario] = useState<{ email: string } | null>(null); // Estado para el usuario
 
   const categories = [
     { name: "Electrónica", subcategories: ["Celulares", "Televisores", "Computadoras", "Cámaras"] },
@@ -42,6 +39,14 @@ const MainPage: React.FC = () => {
   ];
 
   const history = useHistory();
+
+  useEffect(() => {
+    // Obtener los datos del usuario desde localStorage
+    const usuarioGuardado = localStorage.getItem("usuario");
+    if (usuarioGuardado) {
+      setUsuario(JSON.parse(usuarioGuardado));
+    }
+  }, []);
 
   const handleCategoryClick = (event: any, category: string) => {
     setSelectedCategory(category);
@@ -124,6 +129,8 @@ const MainPage: React.FC = () => {
                 alt="Perfil"
                 style={{ width: "30px" }}
               />
+              {/* Mostrar el correo solo si el usuario está logueado */}
+              {usuario && <span style={{ marginLeft: "10px", fontWeight: "bold" }}>{usuario.email}</span>}
             </IonButton>
           </IonButtons>
         </IonToolbar>
@@ -131,7 +138,11 @@ const MainPage: React.FC = () => {
 
       <IonContent className="ion-padding" id="main-content">
         <h1>Bienvenido a MarketLink</h1>
-        <p>Explora nuestras categorías y encuentra lo que necesitas.</p>
+        {usuario ? (
+          <p>Hola, {usuario.email}</p> // Mostrar el email del usuario si está logueado
+        ) : (
+          <p>No hay datos de sesión. Inicia sesión.</p> // Mensaje si no hay usuario logueado
+        )}
 
         <IonPopover
           isOpen={popoverState.show}

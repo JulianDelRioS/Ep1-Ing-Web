@@ -44,6 +44,9 @@ const Login: React.FC = () => {
 
       if (response.ok) {
         setMensaje('Inicio de sesión exitoso.');
+        //guardar datos
+        localStorage.setItem('usuario', JSON.stringify({ email }));
+        
         setTimeout(() => history.push('/principal'), 2000);
         return; // Salir si el login con la base de datos es exitoso
       } else {
@@ -67,6 +70,8 @@ const Login: React.FC = () => {
 
       if (user) {
         setMensaje('Inicio de sesión exitoso con datos locales.');
+        //guardar
+        localStorage.setItem('usuario', JSON.stringify({ email }));
         setTimeout(() => history.push('/principal'), 2000);
       } else {
         setMensaje('Correo o contraseña incorrectos en los datos locales.');
