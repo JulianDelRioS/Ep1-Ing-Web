@@ -1,0 +1,12 @@
+[
+    {
+      "nombre": "Isabel Fernández",
+      "email": "isabel.fernandez@example.com",
+      "password": "ContraseñaSegura456!",
+      "rut": "20897654-8",
+      "fechaNacimiento": "1990-03-15",
+      "region": "Metropolitana",
+      "comuna": "Santiago"
+    }
+  ]
+  

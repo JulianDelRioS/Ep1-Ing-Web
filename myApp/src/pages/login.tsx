@@ -8,28 +8,27 @@ import { useHistory } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha'; // Importa el componente reCAPTCHA
 import './login.css';
 
+
 const Login: React.FC = () => {
   const history = useHistory();
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
 
   const handleLogin = async () => {
-    // Validaciones antes de enviar
     if (!email || !password) {
       setMensaje('Por favor, ingresa tu correo electrónico y contraseña.');
       return;
     }
 
-    // Validar el CAPTCHA
     if (!captchaValue) {
       setMensaje('Por favor, verifica que no eres un robot.');
       return;
     }
 
-    // Enviar los datos al backend
+    // 1. Validación con la base de datos
     try {
       const response = await fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
@@ -37,7 +36,7 @@ const Login: React.FC = () => {
         body: JSON.stringify({
           email,
           password,
-          captcha: captchaValue,  // Enviar el valor del CAPTCHA
+          captcha: captchaValue,
         }),
       });
 
@@ -45,13 +44,36 @@ const Login: React.FC = () => {
 
       if (response.ok) {
         setMensaje('Inicio de sesión exitoso.');
-        setTimeout(() => history.push('/principal'), 2000); // Redirige después de 2 segundos a la página de inicio
+        setTimeout(() => history.push('/principal'), 2000);
+        return; // Salir si el login con la base de datos es exitoso
       } else {
         setMensaje(data.error || 'Error al iniciar sesión.');
       }
     } catch (error) {
-      console.error('Error:', error);
-      setMensaje('Error al conectar con el servidor.');
+      console.error('Error al conectar con el servidor:', error);
+      setMensaje('No se pudo conectar al servidor. Intentando con datos locales...');
+    }
+
+    // 2. Validación con usuarios.json
+    try {
+      const response = await fetch('/usuarios.json');
+
+      const localData = await fetch('/usuarios.json');
+      const usuarios = await localData.json();
+
+      const user = usuarios.find(
+        (u: { email: string; password: string }) => u.email === email && u.password === password
+      );
+
+      if (user) {
+        setMensaje('Inicio de sesión exitoso con datos locales.');
+        setTimeout(() => history.push('/principal'), 2000);
+      } else {
+        setMensaje('Correo o contraseña incorrectos en los datos locales.');
+      }
+    } catch (error) {
+      console.error('Error al cargar usuarios.json:', error);
+      setMensaje('Error al cargar datos locales.');
     }
   };
 
@@ -78,9 +100,7 @@ const Login: React.FC = () => {
           <p>Accede a tu cuenta para comprar o vender productos.</p>
         </div>
 
-        {/* Contenedor con límite de ancho */}
         <div className="form-container">
-          {/* Formulario de Login */}
           <IonCard>
             <IonCardContent>
               <IonRow>
@@ -107,24 +127,21 @@ const Login: React.FC = () => {
                 </IonCol>
               </IonRow>
 
-              {/* CAPTCHA de Google */}
               <IonRow>
                 <IonCol size="12">
                   <ReCAPTCHA
-                    sitekey="6LfM9IcqAAAAAEprABk8l-YZLx1SLbZKj1lZJvrl"  // Reemplaza con tu clave de sitio
+                    sitekey="6LfM9IcqAAAAAEprABk8l-YZLx1SLbZKj1lZJvrl"
                     onChange={setCaptchaValue}
                   />
                 </IonCol>
               </IonRow>
 
-              {/* Botón de Login */}
               <IonButton expand="full" onClick={handleLogin}>
                 Iniciar sesión
               </IonButton>
             </IonCardContent>
           </IonCard>
 
-          {/* Mensaje */}
           {mensaje && <IonText color={mensaje.includes('exitoso') ? 'success' : 'danger'}>
             <p style={{ textAlign: 'center', marginTop: '10px' }}>{mensaje}</p>
           </IonText>}
