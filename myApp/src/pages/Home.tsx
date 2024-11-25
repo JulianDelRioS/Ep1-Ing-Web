@@ -14,10 +14,6 @@ const Home: React.FC = () => {
     history.push('./registro');
   };
 
-  const goToMainPage = () => {
-    history.push('/principal'); // Ruta para la página principal
-  };
-
   return (
     <IonPage>
       <IonHeader>
@@ -44,7 +40,7 @@ const Home: React.FC = () => {
 
         {/* Tarjetas para los botones */}
         <IonRow className="ion-text-center action-cards">
-          <IonCol size="12" sizeMd="4">
+          <IonCol size="12" sizeMd="6">
             <IonCard onClick={goToLogin} button>
               <IonCardContent>
                 <h3>Iniciar Sesión</h3>
@@ -55,24 +51,13 @@ const Home: React.FC = () => {
               </IonCardContent>
             </IonCard>
           </IonCol>
-          <IonCol size="12" sizeMd="4">
+          <IonCol size="12" sizeMd="6">
             <IonCard onClick={goToRegister} button>
               <IonCardContent>
                 <h3>Crear Cuenta</h3>
                 <p>Únete a MarketLink y empieza a vender o comprar productos.</p>
                 <IonButton className="crear-cuenta-btn" expand="block">
                   Crear Cuenta
-                </IonButton>
-              </IonCardContent>
-            </IonCard>
-          </IonCol>
-          <IonCol size="12" sizeMd="4">
-            <IonCard onClick={goToMainPage} button>
-              <IonCardContent>
-                <h3>Página Principal</h3>
-                <p>Explora todas nuestras categorías y productos destacados.</p>
-                <IonButton className="main-page-btn" expand="block">
-                  Ir a Página Principal
                 </IonButton>
               </IonCardContent>
             </IonCard>
