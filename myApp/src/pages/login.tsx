@@ -78,54 +78,57 @@ const Login: React.FC = () => {
           <p>Accede a tu cuenta para comprar o vender productos.</p>
         </div>
 
-        {/* Formulario de Login */}
-        <IonCard>
-          <IonCardContent>
-            <IonRow>
-              <IonCol size="12">
-                <IonItem>
-                  <IonLabel>Correo Electrónico:</IonLabel>
-                  <IonInput 
-                    value={email} 
-                    onIonChange={e => setEmail(e.detail.value!)} 
-                    type="email"
+        {/* Contenedor con límite de ancho */}
+        <div className="form-container">
+          {/* Formulario de Login */}
+          <IonCard>
+            <IonCardContent>
+              <IonRow>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonLabel>Correo Electrónico:</IonLabel>
+                    <IonInput 
+                      value={email} 
+                      onIonChange={e => setEmail(e.detail.value!)} 
+                      type="email"
+                    />
+                  </IonItem>
+                </IonCol>
+
+                <IonCol size="12">
+                  <IonItem>
+                    <IonLabel>Contraseña:</IonLabel>
+                    <IonInput 
+                      type="password" 
+                      value={password} 
+                      onIonChange={e => setPassword(e.detail.value!)} 
+                    />
+                  </IonItem>
+                </IonCol>
+              </IonRow>
+
+              {/* CAPTCHA de Google */}
+              <IonRow>
+                <IonCol size="12">
+                  <ReCAPTCHA
+                    sitekey="6LfM9IcqAAAAAEprABk8l-YZLx1SLbZKj1lZJvrl"  // Reemplaza con tu clave de sitio
+                    onChange={setCaptchaValue}
                   />
-                </IonItem>
-              </IonCol>
+                </IonCol>
+              </IonRow>
 
-              <IonCol size="12">
-                <IonItem>
-                  <IonLabel>Contraseña:</IonLabel>
-                  <IonInput 
-                    type="password" 
-                    value={password} 
-                    onIonChange={e => setPassword(e.detail.value!)} 
-                  />
-                </IonItem>
-              </IonCol>
-            </IonRow>
+              {/* Botón de Login */}
+              <IonButton expand="full" onClick={handleLogin}>
+                Iniciar sesión
+              </IonButton>
+            </IonCardContent>
+          </IonCard>
 
-            {/* CAPTCHA de Google */}
-            <IonRow>
-              <IonCol size="12">
-                <ReCAPTCHA
-                  sitekey="6LfM9IcqAAAAAEprABk8l-YZLx1SLbZKj1lZJvrl"  // Reemplaza con tu clave de sitio
-                  onChange={setCaptchaValue}
-                />
-              </IonCol>
-            </IonRow>
-
-            {/* Botón de Login */}
-            <IonButton expand="full" onClick={handleLogin}>
-              Iniciar sesión
-            </IonButton>
-          </IonCardContent>
-        </IonCard>
-
-        {/* Mensaje */}
-        {mensaje && <IonText color={mensaje.includes('exitoso') ? 'success' : 'danger'}>
-          <p style={{ textAlign: 'center', marginTop: '10px' }}>{mensaje}</p>
-        </IonText>}
+          {/* Mensaje */}
+          {mensaje && <IonText color={mensaje.includes('exitoso') ? 'success' : 'danger'}>
+            <p style={{ textAlign: 'center', marginTop: '10px' }}>{mensaje}</p>
+          </IonText>}
+        </div>
       </IonContent>
 
       <IonFooter>
