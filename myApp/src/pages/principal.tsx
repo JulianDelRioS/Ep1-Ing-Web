@@ -67,6 +67,16 @@ const MainPage: React.FC = () => {
     history.push("./publicar"); // Asegúrate de tener esta ruta configurada
   };
 
+  const handleLogout = () => {
+    // Eliminar todos los datos del usuario en localStorage
+    localStorage.clear(); // Esto eliminará todo lo que esté almacenado en localStorage
+    
+    // Limpiar el estado del usuario
+    setUsuario(null); // Esto elimina la información del usuario en el estado del componente
+    
+    // Redirigir a la página de inicio de sesión
+    history.push("/login");
+  };
   return (
     <IonPage>
       {/* Menú hamburguesa */}
@@ -93,6 +103,11 @@ const MainPage: React.FC = () => {
                 <IonLabel>{category.name}</IonLabel>
               </IonItem>
             ))}
+
+            {/* Botón de Cerrar sesión */}
+            <IonItem button onClick={handleLogout} style={{ marginTop: "auto", color: "red" }}>
+              <IonLabel>Cerrar sesión</IonLabel>
+            </IonItem>
           </IonList>
         </IonContent>
       </IonMenu>
@@ -141,7 +156,7 @@ const MainPage: React.FC = () => {
         {usuario ? (
           <p>Hola, {usuario.email}</p> // Mostrar el email del usuario si está logueado
         ) : (
-          <p>No hay datos de sesión. Inicia sesión.</p> // Mensaje si no hay usuario logueado
+          <p>Bienvenido.</p> 
         )}
 
         <IonPopover
