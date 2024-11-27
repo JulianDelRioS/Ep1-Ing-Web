@@ -6,6 +6,7 @@ import Registro from './pages/resgistro';  // Asegúrate de que la ruta de tu ar
 import login from './pages/login';
 import principal from './pages/principal';
 import publicar from './pages/publicar';
+import ProfilePage from './pages/ProfilePage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -54,6 +55,8 @@ const App: React.FC = () => (
         <Route exact path="/principal" component={principal} />
 
         <Route exact path="/publicar" component={publicar} />
+
+        <Route exact path="/ProfilePage" component={ProfilePage} />
 
         {/* Redirección para la ruta raíz */}
         <Route exact path="/">

@@ -10,7 +10,10 @@ router.post('/signup', async (req, res) => {
   if (!nombre || !email || !password || !rut || !fechaNacimiento || !region || !comuna) {
     return res.status(400).json({ error: "Todos los campos son obligatorios" });
   }
-  
+
+  if (isNaN(Date.parse(fechaNacimiento))) {
+    return res.status(400).json({ error: "La fecha de nacimiento tiene un formato inválido" });
+  }
 
   try {
     // Hash de la contraseña
@@ -19,10 +22,10 @@ router.post('/signup', async (req, res) => {
     // Inserción en la base de datos
 // Inserción en la base de datos
     const query = `
-    INSERT INTO usuarios (nombre, email, password, rut, fechaNacimiento, region, comuna)
+    INSERT INTO usuarios (nombre, email,password, rut, fechanacimiento, region, comuna)
     VALUES ($1, $2, $3, $4, $5, $6, $7)
-    RETURNING id, nombre, email, fecha_registro;
-    `;
+    RETURNING id,nombre, email, rut, fechaNacimiento, region, comuna;
+    ` ;
 
     const values = [nombre, email, hashedPassword, rut, fechaNacimiento, region, comuna];
     const result = await client.query(query, values);
@@ -62,6 +65,7 @@ router.post('/login', async (req, res) => {
     }
 
     const user = result.rows[0];
+    console.log('Datos del usuario:', user);
 
     // Comparar la contraseña proporcionada con la almacenada
     const isMatch = await bcrypt.compare(password, user.password);
@@ -77,6 +81,10 @@ router.post('/login', async (req, res) => {
         id: user.id,
         nombre: user.nombre,
         email: user.email,
+        rut: user.rut,
+        fechanacimiento: user.fechanacimiento,
+        region: user.region,
+        comuna: user.comuna,
         fecha_registro: user.fecha_registro,
       }
     });

@@ -11,76 +11,96 @@ import './login.css';
 
 const Login: React.FC = () => {
   const history = useHistory();
-
+  const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rut, setRut] = useState('');
+  const [fechanacimiento, setFechaNacimiento] = useState('');
+  const [region, setRegion] = useState('');
+  const [comuna, setComuna] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
 
   const handleLogin = async () => {
     if (!email || !password) {
-      setMensaje('Por favor, ingresa tu correo electrónico y contraseña.');
+      setMensaje("Por favor, ingresa tu correo electrónico y contraseña.");
       return;
     }
-
+  
     if (!captchaValue) {
-      setMensaje('Por favor, verifica que no eres un robot.');
+      setMensaje("Por favor, verifica que no eres un robot.");
       return;
     }
-
-    // 1. Validación con la base de datos
+  
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          nombre,
           email,
+          rut,
+          fechanacimiento,
+          region,
+          comuna,
           password,
           captcha: captchaValue,
         }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
-        setMensaje('Inicio de sesión exitoso.');
-        //guardar datos
-        localStorage.setItem('usuario', JSON.stringify({ email }));
-        
-        setTimeout(() => history.push('/principal'), 2000);
-        return; // Salir si el login con la base de datos es exitoso
+        setMensaje("Inicio de sesión exitoso.");
+        const usuario = {
+          nombre: data.user.nombre || "N/A",
+          email: data.user.email || "N/A",
+          rut: data.user.rut || "N/A",
+          fechanacimiento: data.user.fechanacimiento || "N/A",
+          region: data.user.region || "N/A",
+          comuna: data.user.comuna || "N/A",
+        };
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+        setTimeout(() => history.push("/principal"), 2000);
+        return;
       } else {
-        setMensaje(data.error || 'Error al iniciar sesión.');
+        setMensaje(data.error || "Error al iniciar sesión.");
       }
     } catch (error) {
-      console.error('Error al conectar con el servidor:', error);
-      setMensaje('No se pudo conectar al servidor. Intentando con datos locales...');
+      console.error("Error al conectar con el servidor:", error);
+      setMensaje("No se pudo conectar al servidor. Intentando con datos locales...");
     }
-
-    // 2. Validación con usuarios.json
+  
+    // Validación con usuarios.json
     try {
-      const response = await fetch('/usuarios.json');
-
-      const localData = await fetch('/usuarios.json');
+      const localData = await fetch("/usuarios.json");
       const usuarios = await localData.json();
-
+  
       const user = usuarios.find(
         (u: { email: string; password: string }) => u.email === email && u.password === password
       );
-
+  
       if (user) {
-        setMensaje('Inicio de sesión exitoso con datos locales.');
-        //guardar
-        localStorage.setItem('usuario', JSON.stringify({ email }));
-        setTimeout(() => history.push('/principal'), 2000);
+        setMensaje("Inicio de sesión exitoso con datos locales.");
+        const usuario = {
+          nombre: user.nombre || "N/A",
+          email: user.email || "N/A",
+          rut: user.rut || "N/A",
+          fechanacimiento: user.fechanacimiento || "N/A",
+          region: user.region || "N/A",
+          comuna: user.comuna || "N/A",
+        };
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+        setTimeout(() => history.push("/principal"), 2000);
       } else {
-        setMensaje('Correo o contraseña incorrectos en los datos locales.');
+        setMensaje("Correo o contraseña incorrectos en los datos locales.");
       }
     } catch (error) {
-      console.error('Error al cargar usuarios.json:', error);
-      setMensaje('Error al cargar datos locales.');
+      console.error("Error al cargar usuarios.json:", error);
+      setMensaje("Error al cargar datos locales.");
     }
   };
+  
 
   return (
     <IonPage>

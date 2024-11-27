@@ -16,7 +16,6 @@ import {
   IonMenuButton,
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
-import { menu } from "ionicons/icons"; // Importa el ícono de menú hamburguesa
 
 const MainPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -25,7 +24,15 @@ const MainPage: React.FC = () => {
     event: Event | undefined;
   }>({ show: false, event: undefined });
   const [searchText, setSearchText] = useState<string>("");
-  const [usuario, setUsuario] = useState<{ email: string } | null>(null); // Estado para el usuario
+
+  const [usuario, setUsuario] = useState<{
+    nombre: string;
+    email: string;
+    rut: string;
+    fechanacimiento: string;
+    region: string;
+    comuna: string;
+  } | null>(null); // Estado para el usuario
 
   const categories = [
     { name: "Electrónica", subcategories: ["Celulares", "Televisores", "Computadoras", "Cámaras"] },
@@ -41,7 +48,7 @@ const MainPage: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    // Obtener los datos del usuario desde localStorage
+    // Leer los datos del usuario desde localStorage
     const usuarioGuardado = localStorage.getItem("usuario");
     if (usuarioGuardado) {
       setUsuario(JSON.parse(usuarioGuardado));
@@ -54,32 +61,22 @@ const MainPage: React.FC = () => {
   };
 
   const handleProfileClick = () => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn) {
-      alert("¡Accediendo a tu perfil!");
-    } else {
-      history.push("/login");
-    }
+    // Redirige directamente al perfil sin validación adicional
+    history.push("/ProfilePage");
   };
 
   const handlePublishProductClick = () => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    history.push("./publicar"); // Asegúrate de tener esta ruta configurada
+    history.push("./publicar");
   };
 
   const handleLogout = () => {
-    // Eliminar todos los datos del usuario en localStorage
-    localStorage.clear(); // Esto eliminará todo lo que esté almacenado en localStorage
-    
-    // Limpiar el estado del usuario
-    setUsuario(null); // Esto elimina la información del usuario en el estado del componente
-    
-    // Redirigir a la página de inicio de sesión
+    localStorage.clear();
+    setUsuario(null);
     history.push("/login");
   };
+
   return (
     <IonPage>
-      {/* Menú hamburguesa */}
       <IonMenu contentId="main-content">
         <IonHeader>
           <IonToolbar>
@@ -88,12 +85,9 @@ const MainPage: React.FC = () => {
         </IonHeader>
         <IonContent>
           <IonList>
-            {/* Botón para publicar un producto */}
             <IonItem button onClick={handlePublishProductClick}>
               <IonLabel style={{ color: "green" }}>Publicar un Producto</IonLabel>
             </IonItem>
-
-            {/* Categorías */}
             {categories.map((category) => (
               <IonItem
                 button
@@ -103,8 +97,6 @@ const MainPage: React.FC = () => {
                 <IonLabel>{category.name}</IonLabel>
               </IonItem>
             ))}
-
-            {/* Botón de Cerrar sesión */}
             <IonItem button onClick={handleLogout} style={{ marginTop: "auto", color: "red" }}>
               <IonLabel>Cerrar sesión</IonLabel>
             </IonItem>
@@ -115,7 +107,6 @@ const MainPage: React.FC = () => {
       <IonHeader>
         <IonToolbar color="black" className="toolbar-desktop">
           <IonButtons slot="start">
-            {/* Icono de menú hamburguesa */}
             <IonMenuButton />
           </IonButtons>
           <IonTitle>
@@ -137,14 +128,12 @@ const MainPage: React.FC = () => {
               placeholder="Buscar productos..."
               style={{ width: "180px", marginLeft: "5px" }}
             />
-            {/* Icono de perfil */}
             <IonButton onClick={handleProfileClick} style={{ display: "flex", alignItems: "center", marginLeft: "10px" }}>
               <img
                 src="https://cdn-icons-png.flaticon.com/512/4908/4908415.png"
                 alt="Perfil"
                 style={{ width: "30px" }}
               />
-              {/* Mostrar el correo solo si el usuario está logueado */}
               {usuario && <span style={{ marginLeft: "10px", fontWeight: "bold" }}>{usuario.email}</span>}
             </IonButton>
           </IonButtons>
@@ -153,11 +142,6 @@ const MainPage: React.FC = () => {
 
       <IonContent className="ion-padding" id="main-content">
         <h1>Bienvenido a MarketLink</h1>
-        {usuario ? (
-          <p>Hola, {usuario.email}</p> // Mostrar el email del usuario si está logueado
-        ) : (
-          <p>Bienvenido.</p> 
-        )}
 
         <IonPopover
           isOpen={popoverState.show}
