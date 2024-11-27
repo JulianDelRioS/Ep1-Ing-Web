@@ -66,9 +66,20 @@ const MainPage: React.FC = () => {
   };
 
   const handlePublishProductClick = () => {
-    history.push("./publicar");
+    if (usuario) {
+      history.push("/publicar", {
+        nombre: usuario.nombre,
+        email: usuario.email,
+        region: usuario.region,
+        comuna: usuario.comuna,
+        rut : usuario.rut,
+      });
+    } else {
+      // Si no hay usuario logueado, puedes redirigir al login
+      history.push("/login");
+    }
   };
-
+  
   const handleLogout = () => {
     localStorage.clear();
     setUsuario(null);
@@ -85,9 +96,10 @@ const MainPage: React.FC = () => {
         </IonHeader>
         <IonContent>
           <IonList>
-            <IonItem button onClick={handlePublishProductClick}>
-              <IonLabel style={{ color: "green" }}>Publicar un Producto</IonLabel>
-            </IonItem>
+          <IonItem button onClick={handlePublishProductClick}>
+            <IonLabel style={{ color: "green" }}>Publicar un Producto</IonLabel>
+          </IonItem>
+
             {categories.map((category) => (
               <IonItem
                 button
