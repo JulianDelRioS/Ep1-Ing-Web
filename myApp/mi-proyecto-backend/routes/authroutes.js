@@ -94,7 +94,73 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Nuevo Endpoint para "Publicar producto" (POST /products)
+router.post('/products', async (req, res) => {
+  const {
+    nombre_producto,
+    precio,
+    descripcion,
+    email,
+    region,
+    comuna,
+    categoria,
+    subcategoria,
+    rut_usuario,
+    imagen1,
+    imagen2,
+    imagen3
+  } = req.body;
 
+  // Validación de datos
+  if (!nombre_producto || !precio || !region || !comuna || !categoria || !rut_usuario || !imagen1) {
+    return res.status(400).json({ error: "Todos los campos obligatorios deben completarse." });
+  }
+
+  if (precio <= 0) {
+    return res.status(400).json({ error: "El precio debe ser mayor a cero." });
+  }
+
+  try {
+    const query = `
+      INSERT INTO productos (
+        nombre_producto, precio, descripcion, email, region, comuna, categoria, subcategoria, rut_usuario, imagen1, imagen2, imagen3
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+      RETURNING id, nombre_producto, precio, region, comuna, categoria, subcategoria;
+    `;
+
+    const values = [
+      nombre_producto, precio, descripcion, email, region, comuna, categoria, subcategoria, rut_usuario, imagen1, imagen2, imagen3
+    ];
+
+    const result = await client.query(query, values);
+
+    res.status(201).json({
+      message: "Producto publicado exitosamente.",
+      product: result.rows[0]
+    });
+  } catch (err) {
+    console.error("Error al publicar el producto:", err);
+    res.status(500).json({ error: "Error al publicar el producto." });
+  }
+});
+
+// Endpoint para obtener todos los productos
+router.get('/products', async (req, res) => {
+  try {
+    const query = ` 
+      SELECT 
+        id, nombre_producto, precio, descripcion, email, region, comuna, 
+        categoria, subcategoria, imagen1, imagen2, imagen3 
+      FROM productos
+    `;
+    const result = await client.query(query);
+
+    res.status(200).json(result.rows); // Devuelve todos los productos
+  } catch (err) {
+    console.error('Error al obtener productos:', err);
+    res.status(500).json({ error: "Error al obtener productos" });
+  }
+});
 
 
 module.exports = router;

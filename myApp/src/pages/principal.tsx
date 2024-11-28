@@ -14,6 +14,14 @@ import {
   IonSearchbar,
   IonMenu,
   IonMenuButton,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonImg,
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 
@@ -24,6 +32,7 @@ const MainPage: React.FC = () => {
     event: Event | undefined;
   }>({ show: false, event: undefined });
   const [searchText, setSearchText] = useState<string>("");
+  const [products, setProducts] = useState<any[]>([]); // Estado para los productos
 
   const [usuario, setUsuario] = useState<{
     nombre: string;
@@ -32,7 +41,7 @@ const MainPage: React.FC = () => {
     fechanacimiento: string;
     region: string;
     comuna: string;
-  } | null>(null); // Estado para el usuario
+  } | null>(null);
 
   const categories = [
     { name: "Electrónica", subcategories: ["Celulares", "Televisores", "Computadoras", "Cámaras"] },
@@ -55,13 +64,30 @@ const MainPage: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Cargar los productos desde el backend
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/auth/products");
+        if (!response.ok) {
+          throw new Error("Error al cargar los productos");
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error al cargar los productos:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const handleCategoryClick = (event: any, category: string) => {
     setSelectedCategory(category);
     setPopoverState({ show: true, event });
   };
 
   const handleProfileClick = () => {
-    // Redirige directamente al perfil sin validación adicional
     history.push("/ProfilePage");
   };
 
@@ -72,14 +98,13 @@ const MainPage: React.FC = () => {
         email: usuario.email,
         region: usuario.region,
         comuna: usuario.comuna,
-        rut : usuario.rut,
+        rut: usuario.rut,
       });
     } else {
-      // Si no hay usuario logueado, puedes redirigir al login
       history.push("/login");
     }
   };
-  
+
   const handleLogout = () => {
     localStorage.clear();
     setUsuario(null);
@@ -96,10 +121,9 @@ const MainPage: React.FC = () => {
         </IonHeader>
         <IonContent>
           <IonList>
-          <IonItem button onClick={handlePublishProductClick}>
-            <IonLabel style={{ color: "green" }}>Publicar un Producto</IonLabel>
-          </IonItem>
-
+            <IonItem button onClick={handlePublishProductClick}>
+              <IonLabel style={{ color: "green" }}>Publicar un Producto</IonLabel>
+            </IonItem>
             {categories.map((category) => (
               <IonItem
                 button
@@ -117,59 +141,60 @@ const MainPage: React.FC = () => {
       </IonMenu>
 
       <IonHeader>
-        <IonToolbar color="black" className="toolbar-desktop">
+        <IonToolbar color="black">
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
           <IonTitle>
-            <div className="header-logo-title" style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <img
                 src="https://cdn-icons-png.flaticon.com/512/281/281397.png"
                 alt="Logo de MarketLink"
-                className="logo"
                 style={{ width: "40px", marginRight: "5px" }}
               />
-              <span className="marketlink-title">MarketLink</span>
+              MarketLink
             </div>
           </IonTitle>
-          <IonButtons slot="end" style={{ display: "flex", alignItems: "center" }}>
+          <IonButtons slot="end">
             <IonSearchbar
               value={searchText}
               onIonInput={(e: any) => setSearchText(e.target.value)}
               debounce={0}
               placeholder="Buscar productos..."
-              style={{ width: "180px", marginLeft: "5px" }}
             />
-            <IonButton onClick={handleProfileClick} style={{ display: "flex", alignItems: "center", marginLeft: "10px" }}>
+            <IonButton onClick={handleProfileClick}>
               <img
                 src="https://cdn-icons-png.flaticon.com/512/4908/4908415.png"
                 alt="Perfil"
                 style={{ width: "30px" }}
               />
-              {usuario && <span style={{ marginLeft: "10px", fontWeight: "bold" }}>{usuario.email}</span>}
+              {usuario && <span style={{ marginLeft: "10px" }}>{usuario.email}</span>}
             </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding" id="main-content">
-        <h1>Bienvenido a MarketLink</h1>
-
-        <IonPopover
-          isOpen={popoverState.show}
-          event={popoverState.event}
-          onDidDismiss={() => setPopoverState({ show: false, event: undefined })}
-        >
-          <IonList>
-            {categories
-              .find((cat) => cat.name === selectedCategory)
-              ?.subcategories.map((subcategory) => (
-                <IonItem button key={subcategory}>
-                  <IonLabel>{subcategory}</IonLabel>
-                </IonItem>
-              ))}
-          </IonList>
-        </IonPopover>
+      <IonContent id="main-content">
+        <IonGrid>
+          <IonRow>
+            {products.map((product) => (
+              <IonCol size="12" size-md="6" size-lg="4" key={product.id}>
+                <IonCard>
+                  <IonImg src={product.imagen1} alt={product.nombre_producto} />
+                  <IonCardHeader>
+                    <IonCardTitle>{product.nombre_producto}</IonCardTitle>
+                  </IonCardHeader>
+                  <IonCardContent>
+                    <p><strong>Precio:</strong> ${product.precio}</p>
+                    <p>{product.descripcion}</p>
+                    <p><strong>Categoría:</strong> {product.categoria}</p>
+                    <p><strong>Región:</strong> {product.region}</p>
+                  </IonCardContent>
+                </IonCard>
+              </IonCol>
+            ))}
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

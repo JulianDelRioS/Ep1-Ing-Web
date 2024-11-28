@@ -55,13 +55,25 @@ const Publicar: React.FC = () => {
       return;
     }
 
+    // Validación del precio
+  if (parseFloat(productPrice) <= 0) {
+    alert('El precio debe ser mayor a cero.');
+    return;
+  }
+
     const productData = {
-      name: productName,
-      price: parseFloat(productPrice),
-      description: productDescription,
-      category: selectedCategory,
-      subcategory: selectedSubcategory,
-      images: productImages,
+      nombre_producto: productName,
+      precio: parseFloat(productPrice),
+      descripcion: productDescription,
+      email: user.email,
+      region: user.region,
+      comuna: user.comuna,
+      categoria: selectedCategory,
+      subcategoria: selectedSubcategory,
+      rut_usuario: user.rut,
+      imagen1: productImages[0]?.name || '', // Nombres de archivo
+      imagen2: productImages[1]?.name || '',
+      imagen3: productImages[2]?.name || '',
     };
 
     try {
@@ -118,7 +130,7 @@ const Publicar: React.FC = () => {
                 type="number"
                 value={productPrice}
                 placeholder="Precio ($)"
-                onIonChange={(e) => setProductPrice(e.detail.value!)}
+                onIonChange={(e) => setProductPrice(e.detail.value!)}                
               />
               <IonInput
                 value={productDescription}
