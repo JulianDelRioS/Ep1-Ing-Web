@@ -53,6 +53,116 @@
       "region": "Santiago",
       "comuna": "Ñuñoa",
       "imagen1": "https://ansaldo.cl/wp-content/uploads/2018/08/17645.jpg"
+    },
+    {
+      "id": 6,
+      "nombre_producto": "Televisor LG OLED 55\"",
+      "precio": 1200000,
+      "descripcion": "Televisor con tecnología OLED para una calidad de imagen superior.",
+      "categoria": "Electrónica",
+      "subcategoria": "Televisores",
+      "region": "Santiago",
+      "comuna": "La Reina",
+      "imagen1": "https://www.lg.com/content/dam/channel/wcms/cl/images/televisores/oled55c1psa_awh_escl_cl_c/gallery/D-01.jpg"
+    },
+    {
+      "id": 7,
+      "nombre_producto": "Polera Casual para Hombre",
+      "precio": 15000,
+      "descripcion": "Polera de algodón para uso diario.",
+      "categoria": "Ropa",
+      "subcategoria": "Hombres",
+      "region": "Biobío",
+      "comuna": "Chillán",
+      "imagen1": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDz9bm6cBN-KObbi5z_YkmBbZxW-46y1kHNQ&s"
+    },
+    {
+      "id": 8,
+      "nombre_producto": "Sofá de Tres Cuerpos Moderno",
+      "precio": 250000,
+      "descripcion": "Sofá elegante y cómodo ideal para tu sala de estar.",
+      "categoria": "Hogar",
+      "subcategoria": "Muebles",
+      "region": "Valparaíso",
+      "comuna": "Quilpué",
+      "imagen1": "https://www.lapolar.cl/dw/image/v2/BCPP_PRD/on/demandware.static/-/Sites-master-catalog/default/dw8b2d9948/images/large/7CC21369381.jpg?sw=1200&sh=1200&sm=fit"
+    },
+    {
+      "id": 9,
+      "nombre_producto": "Bicicleta de Montaña Trek Marlin 7",
+      "precio": 350000,
+      "descripcion": "Bicicleta diseñada para rendimiento en terrenos difíciles.",
+      "categoria": "Deportes",
+      "subcategoria": "Ciclismo",
+      "region": "Los Lagos",
+      "comuna": "Puerto Montt",
+      "imagen1": "https://sparta.cl/media/catalog/product/m/a/marlin7_23_36967_a_primary.jpg"
+    },
+    {
+      "id": 10,
+      "nombre_producto": "Aceite para Motor 5W-30",
+      "precio": 25000,
+      "descripcion": "Aceite de motor sintético de alto rendimiento.",
+      "categoria": "Automotriz",
+      "subcategoria": "Accesorios para autos",
+      "region": "Coquimbo",
+      "comuna": "La Serena",
+      "imagen1": "https://www.servicioruedas.cl/wp-content/uploads/2020/07/Mobil-5w30-Mobil-S3000-4L.jpg"
+    },
+    {
+      "id": 11,
+      "nombre_producto": "Set de Juguetes Educativos Montessori",
+      "precio": 45000,
+      "descripcion": "Juguetes educativos diseñados para estimular la creatividad y habilidades motoras.",
+      "categoria": "Juguetes",
+      "subcategoria": "Juguetes educativos",
+      "region": "Santiago",
+      "comuna": "Independencia",
+      "imagen1": "https://http2.mlstatic.com/D_NQ_NP_637495-MLU75290479989_032024-O.webp"
+    },
+    {
+      "id": 12,
+      "nombre_producto": "Libro: El Principito",
+      "precio": 8000,
+      "descripcion": "Clásico de la literatura infantil en edición de lujo.",
+      "categoria": "Libros",
+      "subcategoria": "Infantiles",
+      "region": "Araucanía",
+      "comuna": "Temuco",
+      "imagen1": "https://lasmellizas.cl/tienda/wp-content/uploads/2024/07/el-principito-.jpg"
+    },
+    {
+      "id": 13,
+      "nombre_producto": "Set de Pintura Acrílica",
+      "precio": 18000,
+      "descripcion": "Juego de pinturas acrílicas con 12 colores vibrantes.",
+      "categoria": "Arte y Manualidades",
+      "subcategoria": "Pinturas",
+      "region": "Antofagasta",
+      "comuna": "Calama",
+      "imagen1": "https://tienda.funathome.cl/cdn/shop/products/e_b439d201-4409-4a60-a7d8-b2f52e627bf2_1024x1024.jpg?v=1676296818"
+    },
+    {
+      "id": 14,
+      "nombre_producto": "Computadora Portátil HP Pavilion",
+      "precio": 750000,
+      "descripcion": "Laptop de alto rendimiento para trabajos y juegos.",
+      "categoria": "Electrónica",
+      "subcategoria": "Computadoras",
+      "region": "Santiago",
+      "comuna": "Macul",
+      "imagen1": "https://images-cdn.ubuy.co.id/64ccb2559d908f42222b598a-hp-pavilion-13-3-fhd-intel-core-i3.jpg"
+    },
+    {
+      "id": 15,
+      "nombre_producto": "Neumático Michelin Primacy 4",
+      "precio": 85000,
+      "descripcion": "Neumático de alto rendimiento con excelente adherencia.",
+      "categoria": "Automotriz",
+      "subcategoria": "Neumáticos",
+      "region": "O'Higgins",
+      "comuna": "Rancagua",
+      "imagen1": "https://http2.mlstatic.com/D_NQ_NP_905777-MLU74229972433_012024-O.webp"
     }
   ]
   

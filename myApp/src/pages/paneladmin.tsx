@@ -7,7 +7,6 @@ import {
   IonTitle,
   IonButtons,
   IonButton,
-  IonMenuButton,
   IonGrid,
   IonRow,
   IonCol,
@@ -101,9 +100,6 @@ const Paneladmin: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="black">
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
           <IonTitle>
             <div style={{ display: "flex", alignItems: "center" }}>
               <img
