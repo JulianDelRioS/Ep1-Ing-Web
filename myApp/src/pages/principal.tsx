@@ -27,21 +27,14 @@ import { useHistory } from "react-router-dom";
 
 const MainPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [popoverState, setPopoverState] = useState<{
-    show: boolean;
-    event: Event | undefined;
-  }>({ show: false, event: undefined });
+  const [popoverState, setPopoverState] = useState<{ show: boolean; event: Event | undefined }>({
+    show: false,
+    event: undefined,
+  });
   const [searchText, setSearchText] = useState<string>("");
-  const [products, setProducts] = useState<any[]>([]); // Estado para los productos
-
-  const [usuario, setUsuario] = useState<{
-    nombre: string;
-    email: string;
-    rut: string;
-    fechanacimiento: string;
-    region: string;
-    comuna: string;
-  } | null>(null);
+  const [products, setProducts] = useState<any[]>([]);
+  const [usuario, setUsuario] = useState<{ nombre: string; email: string; rut: string; fechanacimiento: string; region: string; comuna: string } | null>(null);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   const categories = [
     { name: "Electrónica", subcategories: ["Celulares", "Televisores", "Computadoras", "Cámaras"] },
@@ -57,7 +50,6 @@ const MainPage: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    // Leer los datos del usuario desde localStorage
     const usuarioGuardado = localStorage.getItem("usuario");
     if (usuarioGuardado) {
       setUsuario(JSON.parse(usuarioGuardado));
@@ -65,7 +57,6 @@ const MainPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Cargar los productos desde el backend
     const fetchProducts = async () => {
       try {
         const response = await fetch("http://localhost:3000/api/auth/products");
@@ -82,8 +73,12 @@ const MainPage: React.FC = () => {
     fetchProducts();
   }, []);
 
-  const handleCategoryClick = (event: any, category: string) => {
-    setSelectedCategory(category);
+  const handleCategoryClick = (event: any, categoryName: string) => {
+    if (expandedCategory === categoryName) {
+      setExpandedCategory(null); // Contraer si ya está expandido
+    } else {
+      setExpandedCategory(categoryName);
+    }
     setPopoverState({ show: true, event });
   };
 
@@ -125,13 +120,20 @@ const MainPage: React.FC = () => {
               <IonLabel style={{ color: "green" }}>Publicar un Producto</IonLabel>
             </IonItem>
             {categories.map((category) => (
-              <IonItem
-                button
-                key={category.name}
-                onClick={(e) => handleCategoryClick(e, category.name)}
-              >
-                <IonLabel>{category.name}</IonLabel>
-              </IonItem>
+              <div key={category.name}>
+                <IonItem button onClick={(e) => handleCategoryClick(e, category.name)}>
+                  <IonLabel>{category.name}</IonLabel>
+                </IonItem>
+                {expandedCategory === category.name && (
+                  <IonList>
+                    {category.subcategories.map((subcategory, index) => (
+                      <IonItem key={index} button onClick={() => console.log(`Subcategoría seleccionada: ${subcategory}`)}>
+                        <IonLabel>{subcategory}</IonLabel>
+                      </IonItem>
+                    ))}
+                  </IonList>
+                )}
+              </div>
             ))}
             <IonItem button onClick={handleLogout} style={{ marginTop: "auto", color: "red" }}>
               <IonLabel>Cerrar sesión</IonLabel>
