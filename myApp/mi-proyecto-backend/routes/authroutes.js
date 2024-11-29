@@ -162,6 +162,38 @@ router.get('/products', async (req, res) => {
     res.status(500).json({ error: "Error al obtener productos" });
   }
 });
+// Endpoint para modificar la comuna y la región de un usuario (PUT /update-location)
+router.put('/ProfilePage', async (req, res) => {
+  const { email, region, comuna } = req.body;
+
+  if (!email || !region || !comuna) {
+    return res.status(400).json({ error: "El email, la región y la comuna son obligatorios" });
+  }
+
+  try {
+    // Consulta para actualizar la región y comuna del usuario
+    const query = `
+      UPDATE usuarios
+      SET region = $1, comuna = $2
+      WHERE email = $3
+      RETURNING id, nombre, email, region, comuna;
+    `;
+    const values = [region, comuna, email];
+    const result = await client.query(query, values);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    res.status(200).json({
+      message: "Región y comuna actualizadas exitosamente.",
+      user: result.rows[0]
+    });
+  } catch (err) {
+    console.error('Error al actualizar la región y comuna:', err);
+    res.status(500).json({ error: "Error al actualizar la región y comuna" });
+  }
+});
 
 
 module.exports = router;
