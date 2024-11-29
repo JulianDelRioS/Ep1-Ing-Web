@@ -7,6 +7,11 @@ import {
   IonTitle,
   IonButtons,
   IonButton,
+  IonMenuButton,
+  IonMenu,
+  IonList,
+  IonItem,
+  IonLabel,
   IonGrid,
   IonRow,
   IonCol,
@@ -36,7 +41,12 @@ const Paneladmin: React.FC = () => {
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
   const [allProducts, setAllProducts] = useState<any[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
-  const [usuario, setUsuario] = useState<{ nombre: string; email: string; rut: string; fechanacimiento: string; region: string; comuna: string } | null>(null);
+  const [usuario, setUsuario] = useState<{ nombre: string; email: string; rut: string; fechanacimiento: string; region: string; comuna: string; rol: string } | null>(null);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [popoverState, setPopoverState] = useState<{ show: boolean; event: Event | undefined }>({
+    show: false,
+    event: undefined,
+  });
 
   const history = useHistory();
 
@@ -92,14 +102,77 @@ const Paneladmin: React.FC = () => {
     history.push("/login"); // Redirige a la página de inicio de sesión.
   };
 
+  const handleDeleteProduct = async (productId: number) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/auth/products/${productId}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        const updatedProducts = filteredProducts.filter(product => product.id !== productId);
+        setFilteredProducts(updatedProducts); // Actualiza la lista de productos
+        alert("Producto eliminado correctamente");
+      } else {
+        alert("Error al eliminar el producto");
+      }
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+      alert("Hubo un error al eliminar el producto");
+    }
+  };
+
+
   const subcategories = selectedCategory
     ? categories.find(category => category.name === selectedCategory)?.subcategories || []
     : [];
 
+    const handlePublishProductClick = () => {
+      if (usuario) {
+        history.push("/publicar", {
+          nombre: usuario.nombre,
+          email: usuario.email,
+          region: usuario.region,
+          comuna: usuario.comuna,
+          rut: usuario.rut,
+        });
+      } else {
+        history.push("/login");
+      }
+    };
+
+    const handleCategoryClick = (event: any, categoryName: string) => {
+      if (expandedCategory === categoryName) {
+        setExpandedCategory(null); // Contraer si ya está expandido
+      } else {
+        setExpandedCategory(categoryName);
+      }
+      setPopoverState({ show: true, event });
+    };
+
   return (
     <IonPage>
+      <IonMenu contentId="main-content">
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Menú</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonList>
+            <IonItem button onClick={handlePublishProductClick}>
+              <IonLabel style={{ color: "green" }}>Publicar un Producto</IonLabel>
+            </IonItem>
+            <IonItem button onClick={handleLogout} style={{ marginTop: "auto", color: "red" }}>
+              <IonLabel>Cerrar sesión</IonLabel>
+            </IonItem>
+          </IonList>
+        </IonContent>
+      </IonMenu>
+
       <IonHeader>
         <IonToolbar color="black">
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>
             <div style={{ display: "flex", alignItems: "center" }}>
               <img
@@ -119,15 +192,12 @@ const Paneladmin: React.FC = () => {
               />
               {usuario && <span style={{ marginLeft: "10px" }}>{usuario.email}</span>}
             </IonButton>
-            <IonButton color="danger" onClick={handleLogout}>
-              Cerrar sesión
-            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
 
       <IonContent id="main-content">
-        {/* Selector de categoría */}
+        {/* Contenido de la página de administración */}
         <IonSelect
           placeholder="Selecciona una categoría"
           value={selectedCategory}
@@ -158,10 +228,10 @@ const Paneladmin: React.FC = () => {
           </IonSelect>
         )}
 
-        <IonGrid>
+<IonGrid>
           <IonRow>
             {filteredProducts.map((product) => (
-              <IonCol size="12" size-md="6" size-lg="4" key={product.id}>
+              <IonCol size="12" size-md="6" size-lg="4" key={`${product.id}-${product.nombre_producto}`}>
                 <IonCard>
                   <IonImg src={product.imagen1} alt={product.nombre_producto} />
                   <IonCardHeader>
@@ -172,6 +242,11 @@ const Paneladmin: React.FC = () => {
                     <p>{product.descripcion}</p>
                     <p><strong>Categoría:</strong> {product.categoria}</p>
                     <p><strong>Región:</strong> {product.region}</p>
+                    {usuario && usuario.rol === 'admin' && (                      
+                      <IonButton color="danger" onClick={() => handleDeleteProduct(product.id)}>
+                        Eliminar
+                      </IonButton>
+                    )}
                   </IonCardContent>
                 </IonCard>
               </IonCol>

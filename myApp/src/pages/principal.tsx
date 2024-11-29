@@ -26,26 +26,19 @@ import {
 import { useHistory } from "react-router-dom";
 
 const MainPage: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);  // Guardar la categoría seleccionada
   const [popoverState, setPopoverState] = useState<{ show: boolean; event: Event | undefined }>({
     show: false,
     event: undefined,
   });
-  const [searchText, setSearchText] = useState<string>("");
-  const [products, setProducts] = useState<any[]>([]);
+  const [searchText, setSearchText] = useState<string>("");  // Para la barra de búsqueda
+  const [products, setProducts] = useState<any[]>([]);  // Lista de productos
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);  // Productos filtrados por categoría
   const [usuario, setUsuario] = useState<{ nombre: string; email: string; rut: string; fechanacimiento: string; region: string; comuna: string } | null>(null);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
-  const categories = [
-    { name: "Electrónica", subcategories: ["Celulares", "Televisores", "Computadoras", "Cámaras"] },
-    { name: "Ropa", subcategories: ["Hombres", "Mujeres", "Niños"] },
-    { name: "Hogar", subcategories: ["Muebles", "Electrodomésticos", "Decoración"] },
-    { name: "Deportes", subcategories: ["Fútbol", "Ciclismo", "Running", "Natación", "Gimnasia"] },
-    { name: "Automotriz", subcategories: ["Accesorios para autos", "Neumáticos", "Herramientas", "Repuestos"] },
-    { name: "Juguetes", subcategories: ["Juguetes educativos", "Muñecas", "Juguetes de construcción", "Juguetes para bebé"] },
-    { name: "Libros", subcategories: ["Ficción", "No Ficción", "Infantiles", "Cómics", "Educación"] },
-    { name: "Arte y Manualidades", subcategories: ["Pinturas", "Escultura", "Materiales para manualidades", "Lanas y hilos"] },
-  ];
+  // Lista de categorías para el menú
+  const [categories, setCategories] = useState<string[]>([]); // Lista dinámica de categorías
 
   const history = useHistory();
 
@@ -59,7 +52,7 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Cargar productos desde la base de datos
+        // Cargar productos desde la base de datos (API)
         const response = await fetch("http://localhost:3000/api/auth/products");
         if (!response.ok) {
           throw new Error("Error al cargar los productos desde la API");
@@ -73,8 +66,27 @@ const MainPage: React.FC = () => {
         }
         const dataFromJson = await responseJson.json();
 
-        // Combinar los productos de ambas fuentes
-        setProducts([...dataFromAPI, ...dataFromJson]);
+        // Normalizar y combinar los productos de ambas fuentes
+        const allProducts = [...dataFromAPI, ...dataFromJson].map((product: any) => ({
+          ...product,
+          // Asegurarse de que los productos tengan las mismas propiedades
+          categoria: product.categoria || "",  // Asegurarse de que cada producto tenga la propiedad 'categoria'
+          precio: product.precio || 0,
+          nombre_producto: product.nombre_producto || "",
+          descripcion: product.descripcion || "",
+          imagen1: product.imagen1 || "",
+          region: product.region || "",
+        }));
+
+        setProducts(allProducts);
+        setFilteredProducts(allProducts); // Inicialmente, mostrar todos los productos
+
+        // Extraer las categorías únicas de los productos
+        const uniqueCategories = [
+          ...new Set(allProducts.map((product: any) => product.categoria))
+        ];
+        setCategories(uniqueCategories); // Establecer las categorías para mostrar en el menú
+
       } catch (error) {
         console.error("Error al cargar los productos:", error);
       }
@@ -83,12 +95,18 @@ const MainPage: React.FC = () => {
     fetchProducts();
   }, []);
 
-  const handleCategoryClick = (event: any, categoryName: string) => {
-    if (expandedCategory === categoryName) {
-      setExpandedCategory(null); // Contraer si ya está expandido
+  // Filtrar productos por categoría seleccionada
+  useEffect(() => {
+    if (selectedCategory === null || selectedCategory === "") {
+      setFilteredProducts(products);  // Si no hay categoría seleccionada, mostrar todos los productos
     } else {
-      setExpandedCategory(categoryName);
+      const filtered = products.filter(product => product.categoria === selectedCategory);
+      setFilteredProducts(filtered);  // Mostrar solo los productos de la categoría seleccionada
     }
+  }, [selectedCategory, products]); // Actualizar los productos filtrados cuando cambian los productos o la categoría seleccionada
+
+  const handleCategoryClick = (event: any, categoryName: string) => {
+    setSelectedCategory(categoryName); // Establecer la categoría seleccionada
     setPopoverState({ show: true, event });
   };
 
@@ -130,19 +148,10 @@ const MainPage: React.FC = () => {
               <IonLabel style={{ color: "green" }}>Publicar un Producto</IonLabel>
             </IonItem>
             {categories.map((category) => (
-              <div key={category.name}>
-                <IonItem button onClick={(e) => handleCategoryClick(e, category.name)}>
-                  <IonLabel>{category.name}</IonLabel>
+              <div key={category}>
+                <IonItem button onClick={(e) => handleCategoryClick(e, category)}>
+                  <IonLabel>{category}</IonLabel>
                 </IonItem>
-                {expandedCategory === category.name && (
-                  <IonList>
-                    {category.subcategories.map((subcategory, index) => (
-                      <IonItem key={index} button onClick={() => console.log(`Subcategoría seleccionada: ${subcategory}`)}>
-                        <IonLabel>{subcategory}</IonLabel>
-                      </IonItem>
-                    ))}
-                  </IonList>
-                )}
               </div>
             ))}
             <IonItem button onClick={handleLogout} style={{ marginTop: "auto", color: "red" }}>
@@ -189,7 +198,7 @@ const MainPage: React.FC = () => {
       <IonContent id="main-content">
         <IonGrid>
           <IonRow>
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <IonCol size="12" size-md="6" size-lg="4" key={product.id}>
                 <IonCard>
                   <IonImg src={product.imagen1} alt={product.nombre_producto} />

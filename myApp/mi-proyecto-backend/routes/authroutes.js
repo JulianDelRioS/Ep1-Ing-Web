@@ -194,7 +194,45 @@ router.put('/ProfilePage', async (req, res) => {
     res.status(500).json({ error: "Error al actualizar la región y comuna" });
   }
 });
+// Endpoint para eliminar un producto (DELETE /products/:id)
+router.delete('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  console.log(req.params.id)
+  const user = req.user;  // Suponiendo que la autenticación se maneja con JWT y `req.user` contiene la información del usuario autenticado.
 
+  // Validación de ID
+  if (!id) {
+    return res.status(400).json({ error: "ID del producto es obligatorio" });
+  }
+
+  // Validación de que el usuario es un administrador
+  if (!user || user.rol !== 'admin') {
+    return res.status(403).json({ error: "No tienes permisos para eliminar productos" });
+  }
+
+  try {
+    // Eliminar el producto de la base de datos
+    const query = `DELETE FROM productos WHERE id = $1 RETURNING id, nombre_producto`;
+    const values = [id];
+    const result = await client.query(query, values);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+
+    // Respuesta exitosa
+    res.status(200).json({
+      message: "Producto eliminado exitosamente",
+      product: result.rows[0]
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error al eliminar el producto" });
+  }
+});
+
+
+module.exports = router;
 
 module.exports = router;
 
