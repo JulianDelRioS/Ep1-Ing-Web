@@ -7,6 +7,7 @@ import login from './pages/login';
 import principal from './pages/principal';
 import publicar from './pages/publicar';
 import ProfilePage from './pages/ProfilePage';
+import paneladmin from './pages/paneladmin';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -57,6 +58,8 @@ const App: React.FC = () => (
         <Route exact path="/publicar" component={publicar} />
 
         <Route exact path="/ProfilePage" component={ProfilePage} />
+
+        <Route exact path="/paneladmin" component={paneladmin} />
 
         {/* Redirección para la ruta raíz */}
         <Route exact path="/">

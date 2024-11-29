@@ -74,7 +74,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: "Contraseña incorrecta" });
     }
 
-    // Respuesta en caso de éxito (podrías devolver un token JWT aquí, si lo necesitas)
+    // Respuesta en caso de éxito
     res.status(200).json({
       message: "Inicio de sesión exitoso",
       user: {
@@ -85,6 +85,7 @@ router.post('/login', async (req, res) => {
         fechanacimiento: user.fechanacimiento,
         region: user.region,
         comuna: user.comuna,
+        rol: user.rol, // Agregar el rol aquí
         fecha_registro: user.fecha_registro,
       }
     });

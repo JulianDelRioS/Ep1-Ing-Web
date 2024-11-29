@@ -52,16 +52,15 @@ const Login: React.FC = () => {
   
       if (response.ok) {
         setMensaje("Inicio de sesión exitoso.");
-        const usuario = {
-          nombre: data.user.nombre || "N/A",
-          email: data.user.email || "N/A",
-          rut: data.user.rut || "N/A",
-          fechanacimiento: data.user.fechanacimiento || "N/A",
-          region: data.user.region || "N/A",
-          comuna: data.user.comuna || "N/A",
-        };
-        localStorage.setItem("usuario", JSON.stringify(usuario));
-        setTimeout(() => history.push("/principal"), 2000);
+        
+        // Verifica si el usuario es administrador y redirige según corresponda
+        if (data.user.rol === 'admin') {
+          localStorage.setItem("usuario", JSON.stringify(data.user));
+          setTimeout(() => history.push("/paneladmin"), 2000);
+        } else {
+          localStorage.setItem("usuario", JSON.stringify(data.user));
+          setTimeout(() => history.push("/principal"), 2000);
+        }
         return;
       } else {
         setMensaje(data.error || "Error al iniciar sesión.");
@@ -82,16 +81,16 @@ const Login: React.FC = () => {
   
       if (user) {
         setMensaje("Inicio de sesión exitoso con datos locales.");
-        const usuario = {
-          nombre: user.nombre || "N/A",
-          email: user.email || "N/A",
-          rut: user.rut || "N/A",
-          fechanacimiento: user.fechanacimiento || "N/A",
-          region: user.region || "N/A",
-          comuna: user.comuna || "N/A",
-        };
-        localStorage.setItem("usuario", JSON.stringify(usuario));
-        setTimeout(() => history.push("/principal"), 2000);
+        
+        // Verifica si el usuario es administrador y redirige según corresponda
+        if (user.rol === 'admin') {
+          localStorage.setItem("usuario", JSON.stringify(user));
+          setTimeout(() => history.push("/paneladmin"), 2000);
+        } else {
+          localStorage.setItem("usuario", JSON.stringify(user));
+          setTimeout(() => history.push("/principal"), 2000);
+        }
+        return;
       } else {
         setMensaje("Correo o contraseña incorrectos en los datos locales.");
       }
