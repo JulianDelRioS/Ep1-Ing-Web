@@ -1,0 +1,58 @@
+[
+    {
+      "id": 1,
+      "nombre_producto": "Celular Samsung Galaxy S22",
+      "precio": 600000,
+      "descripcion": "Smartphone de última generación con cámara de alta calidad.",
+      "categoria": "Electrónica",
+      "subcategoria": "Celulares",
+      "region": "Santiago",
+      "comuna": "Providencia",
+      "imagen1": "https://www.reuse.cl/cdn/shop/files/2_1_3a9b719f-07a9-4393-b145-0e0e06576f07_700x700.png?v=1685566088"
+    },
+    {
+      "id": 2,
+      "nombre_producto": "Silla de Oficina Ergonométrica",
+      "precio": 150000,
+      "descripcion": "Silla ergonómica ideal para largas horas de trabajo.",
+      "categoria": "Hogar",
+      "subcategoria": "Muebles",
+      "region": "Valparaíso",
+      "comuna": "Viña del Mar",
+      "imagen1": "https://i5.walmartimages.cl/asr/5e077485-12d9-4caf-b831-c8f5c523597e.b4d0291469339e0b3bbb4a0a214b93aa.jpeg?odnHeight=2000&odnWidth=2000&odnBg=ffffff"
+    },
+    {
+      "id": 3,
+      "nombre_producto": "Cámara Digital Canon EOS 90D",
+      "precio": 900000,
+      "descripcion": "Cámara réflex digital con lentes intercambiables y grabación 4K.",
+      "categoria": "Electrónica",
+      "subcategoria": "Cámaras",
+      "region": "Santiago",
+      "comuna": "Las Condes",
+      "imagen1": "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaCL/115678242_01/w=1500,h=1500,fit=pad"
+    },
+    {
+      "id": 4,
+      "nombre_producto": "Tenis Nike Air Zoom Pegasus 39",
+      "precio": 80000,
+      "descripcion": "Tenis deportivos para correr con tecnología de amortiguación.",
+      "categoria": "Deportes",
+      "subcategoria": "Running",
+      "region": "Biobío",
+      "comuna": "Concepción",
+      "imagen1": "https://nikeclprod.vtexassets.com/arquivos/ids/998820-800-800?v=638488892189870000&width=800&height=800&aspect=true"
+    },
+    {
+      "id": 5,
+      "nombre_producto": "Juego de Mesa Catan",
+      "precio": 50000,
+      "descripcion": "Juego de estrategia donde los jugadores compiten por colonizar una isla.",
+      "categoria": "Juguetes",
+      "subcategoria": "Juguetes de construcción",
+      "region": "Santiago",
+      "comuna": "Ñuñoa",
+      "imagen1": "https://ansaldo.cl/wp-content/uploads/2018/08/17645.jpg"
+    }
+  ]
+  

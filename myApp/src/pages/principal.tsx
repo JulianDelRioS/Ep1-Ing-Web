@@ -59,12 +59,22 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        // Cargar productos desde la base de datos
         const response = await fetch("http://localhost:3000/api/auth/products");
         if (!response.ok) {
-          throw new Error("Error al cargar los productos");
+          throw new Error("Error al cargar los productos desde la API");
         }
-        const data = await response.json();
-        setProducts(data);
+        const dataFromAPI = await response.json();
+
+        // Cargar productos desde el archivo JSON local
+        const responseJson = await fetch("/productos.json");
+        if (!responseJson.ok) {
+          throw new Error("Error al cargar el archivo JSON de productos");
+        }
+        const dataFromJson = await responseJson.json();
+
+        // Combinar los productos de ambas fuentes
+        setProducts([...dataFromAPI, ...dataFromJson]);
       } catch (error) {
         console.error("Error al cargar los productos:", error);
       }
